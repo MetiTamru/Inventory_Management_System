@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import img1 from '../assets/img2.png';
-import img2 from '../assets/img1.png';
+
 import google from '../assets/google.png';
 import facebook from '../assets/facebook.png';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

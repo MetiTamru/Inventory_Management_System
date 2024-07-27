@@ -1,15 +1,11 @@
-import Sidebar from "./Components/Sidebar";
 import { Route, Routes } from "react-router-dom";
-
 import "./App.css"
 import MainComponent from "./Components/MainComponent";
 import LoginPage from "./Components/LoginPage";
-
-
 import SalesManagment from "./Pages/TransactionManagment";
 import CustomerList from "./Pages/SubPages/CustomerList";
 import SalesOverview from "./Pages/SubPages/SalesOverview";
-import NewSale from "./Pages/SubPages/NewSale";
+import AddItem from "./Pages/SubPages/AddItem";
 import SalesReports from "./Pages/SubPages/SalesReports";
 import InventoryManagment from "./Pages/InventoryManagment";
 import ProductList from "./Pages/SubPages/ProductList";
@@ -39,6 +35,7 @@ import LoyalityPrograms from "./Pages/SubPages/LoyalityPrograms";
 import SigninRegister from "./Components/SigninRegister";
 import RegisterPage from "./Components/RegisterPage";
 import Dashboard from "./Pages/Dashboard";
+import ManageItems from "./Pages/ManageItems";
 
 function App() {
   return (
@@ -48,13 +45,13 @@ function App() {
       <div className="content-container">
       <Routes>
       <Route path="/" element={<Dashboard />} />
-        <Route path="/sales-managment" element={<SalesManagment />} />
-        <Route path="/sales-managment/sales-overview" element={<SalesOverview />} />
-        <Route path="/sales-managment/new-sales" element={<NewSale />} />
-        <Route path="/sales-managment/sales-report" element={<SalesReports />} />
+        <Route path="/manage-items" element={<ManageItems />} />
+        <Route path="/sales-management/sales-overview" element={<SalesOverview />} />
+        <Route path="/manage-items/add-item" element={<AddItem />} />
+        <Route path="/sales-manageement/sales-report" element={<SalesReports />} />
         <Route path="/inventory-management" element={<InventoryManagment />} />
         <Route path="/inventory-management/product-list" element={<ProductList />} />
-        <Route path="/inventory-management/stock-level" element={<StockLevels />} />
+        <Route path="/inventory-management/stock-level" element={<StockLevels />} />e
         <Route path="/inventory-management/suppliers" element={<Suppliers />} />
         <Route path="/inventory-management/purchase-orders" element={<PurchaseOrders />} />
         <Route path="/employe-management" element={<EmployeeManagment />} />

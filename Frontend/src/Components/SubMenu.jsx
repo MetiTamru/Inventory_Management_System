@@ -67,7 +67,7 @@ const DropdownLink = styled(NavLink)`
   color: #000;
   font-size: 18px;
   transition: all 0.3s ease;
-  text-align: start;
+  text-align: start; 
   
   transition: color 0.3s ease;
   &:hover .active-dot{
@@ -105,44 +105,42 @@ const DropDownIcons = styled.div`
 color:#9f9d9d;
 font-size:10px;
 `
-function SubMenu({ item }) {
-  const [subnav, setSubnav] = useState(false);
-  const showSubnav = () => setSubnav(!subnav);
-
+function SubMenu({ item, isOpen, toggleSubnav }) {
   return (
     <IconContext.Provider value={{ color: "#fff" }}>
-   
-      <SidebarLink to={item.path} onClick={item.subNav && showSubnav} activeClassName="active"
-       className={subnav ? "show-icons" : ""}>
+      <SidebarLink
+        to={item.path}
+        onClick={item.subNav && toggleSubnav}
+        activeClassName="active"
+        className={isOpen ? "show-icons" : ""}
+      >
         <div className="active-sidenav">
           {item.icon}
           <SidebarLabel>{item.title}</SidebarLabel>
         </div>
         <DropDownIcons>
-          {item.subNav && subnav ? (
-             <FontAwesomeIcon icon={faAngleUp}/>
+          {item.subNav && isOpen ? (
+            <FontAwesomeIcon icon={faAngleUp} />
           ) : item.subNav ? (
-            <FontAwesomeIcon icon={faAngleDown}/>
+            <FontAwesomeIcon icon={faAngleDown} />
           ) : null}
         </DropDownIcons>
       </SidebarLink>
 
-      {subnav &&
+      {isOpen &&
         item.subNav.map((subItem, index) => (
-          <div className="drop-downs">
-            <DropdownLink to={subItem.path} key={index} activeClassName="active" className={subnav ? "show-icons" : ""}>
-            <SubnavIcon>
-              <div className="active-dot"><FontAwesomeIcon icon={faCircle}/></div>
-              <div className="active-icon">{subItem.icon}</div>
-              
-            </SubnavIcon>
-            <SidebarLabel>{subItem.title}</SidebarLabel>
-          </DropdownLink>
+          <div className="drop-downs" key={index}>
+            <DropdownLink to={subItem.path} activeClassName="active" className={isOpen ? "show-icons" : ""}>
+              <SubnavIcon>
+                <div className="active-dot">
+                  <FontAwesomeIcon icon={faCircle} />
+                </div>
+                <div className="active-icon">{subItem.icon}</div>
+              </SubnavIcon>
+              <SidebarLabel>{subItem.title}</SidebarLabel>
+            </DropdownLink>
           </div>
-          
-        ))
-      }
-            
+        ))}
     </IconContext.Provider>
   );
 }
