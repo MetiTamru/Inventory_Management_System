@@ -75,7 +75,7 @@ function Dashboard() {
 
 
   return (
-    <div className="p-4 w-full h-full mt-28 min-h-screen">
+    <div className="p-4 w-full h-full mt-32 min-h-screen">
       <div className="flex flex-wrap justify-around shadow-md bg-white  p-6">
         <div className="flex flex-row items-center justify-center sm:w-1/2 lg:w-1/4 pl-2 mb-2">
           <div className="text-start">
@@ -123,37 +123,37 @@ function Dashboard() {
       {/**Todays sales  */}
     <div className="bg-white shadow-md rounded-sm p-10 w-full md:w-1/2 flex flex-col">
   <div className="text-center mb-4">
-    <p className="text-xl text-start font-semibold text-gray-700">Sales | <span className='text-sm text-blue-400'>Today</span></p>
+    <p className="text-xl text-start font-semibold text-gray-700">Sales | <span className='text-sm text-gray-400'>Today</span></p>
   </div>
   <div className="flex  md:flex-row  items-center text gap-4">
     <div>{cartIcon}<div className="nav-cart-count">60</div> </div>
     <div className=" ml-5 ">
       <p className="text-2xl font-bold text-start text-gray-800">$100</p>
-      <p className="text-gray-600 text-sm  mt-1">Top Selling Items</p>
+      <p className="text-purple-400 text-sm  mt-1">Top Selling Items</p>
     </div>
   </div>
 </div>
  {/**Todays profite  */}
 <div className="bg-white shadow-md rounded-sm p-10 w-full md:w-1/2 flex flex-col">
   <div className="text-center mb-4">
-    <p className="text-xl text-start font-semibold text-gray-700"> Expenses | <span className='text-sm text-blue-400'>Today</span></p>
+    <p className="text-xl text-start font-semibold text-gray-700"> Expenses | <span className='text-sm text-gray-400'>Today</span></p>
   </div>
   <div className="flex  md:flex-row  items-center text gap-6">
     
-    <div className='flex flex-row'>{dollarSign}<FontAwesomeIcon icon={faMinus} className='text-red-500 font-bold'/><p className='text-red-500 font-bold '>2</p> </div>
+    <div className='flex flex-row'><FontAwesomeIcon icon={faDollarSign} size="2x"  /><FontAwesomeIcon icon={faMinus} className='text-red-500 font-bold'/><p className='text-red-500 font-bold '>2</p> </div>
     <div className=" ml-5 ">
       <p className="text-2xl font-bold text-start text-gray-800">$100</p>
-      <p className="text-gray-600 text-sm mt-1">View expense report</p>
+      <p className="text-purple-400 text-sm mt-1">View expense report</p>
     </div>
   </div>
 </div>
     </div>
     <div className="bg-white shadow-md rounded-sm p-10 w-full flex flex-col">
   <div className="text-center mb-4">
-    <p className="text-xl text-start font-semibold text-gray-700">Profits | <span className='text-sm text-blue-400'>Today</span></p>
+    <p className="text-xl text-start font-semibold text-gray-700">Profits | <span className='text-sm text-gray-400'>Today</span></p>
   </div>
   <div className="flex  md:flex-row  items-center text gap-4">
-  <div>{dollarSign}</div>
+  <FontAwesomeIcon icon={faDollarSign} size="2x"  />
     <div className=" ml-5 ">
       <p className="text-2xl font-bold text-start text-gray-800">$100</p>
       <p className="text-gray-600  mt-1"></p>
@@ -169,7 +169,7 @@ function Dashboard() {
   <div>{cartIcon}</div>
     <div className=" ml-5 ">
       <p className="text-2xl font-bold text-start text-gray-800">$2800</p>
-      <p className="text-gray-600 text-sm mt-1">Top Selling Items this month</p>
+      <p className="text-purple-400 text-sm mt-1">Top Selling Items this month</p>
     </div>
   </div>
 </div>
@@ -182,10 +182,10 @@ function Dashboard() {
     <p className="text-xl text-start font-semibold text-gray-700">Total buying</p>
   </div>
   <div className="flex  md:flex-row  items-center text gap-4">
-  <div>{cartIcon}</div>
+  <FontAwesomeIcon icon={faCartShopping} size="2x"   />
     <div className=" ml-5 ">
       <p className="text-2xl font-bold text-start text-gray-800">$100</p>
-      <p className="text-gray-600 text-sm mt-1">view detail</p>
+      <p className="text-purple-400  text-sm mt-1">view detail</p>
     </div>
   </div>
 </div>
@@ -194,7 +194,7 @@ function Dashboard() {
     <p className="text-xl text-start font-semibold text-gray-700">Total profit</p>
   </div>
   <div className="flex  md:flex-row  items-center text gap-4">
-  <div>{dollarSign}</div>
+  <FontAwesomeIcon icon={faDollarSign} size="2x"  />
     <div className=" ml-5 ">
       <p className="text-2xl font-bold text-start text-gray-800">$100</p>
       
@@ -209,10 +209,10 @@ function Dashboard() {
 
 <div className="bg-white shadow-md rounded-sm p-10 w-full">
       <div className="flex items-center justify-between mb-4">
-        <p className="text-xl font-semibold text-gray-800">Sales Report | <span className='text-sm text-blue-400'>Today</span></p>
+        <p className="text-xl font-semibold text-gray-800">Sales Report | <span className='text-sm text-gray-400'>Today</span></p>
         <div className="flex items-center gap-2 text-blue-400">
           <i className="fas fa-calendar-day text-sm"></i> {/* Calendar icon */}
-          <p className="text-sm">July 26, 2024</p>
+          <p className="text-sm text-gray-400">July 26, 2024</p>
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -227,14 +227,14 @@ function Dashboard() {
   </div>
   <div className='w-full md:w-1/4'>
   <div className="flex items-center gap-4 p-10 border-b border-gray-200 rounded-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg bg-white">
-  <div className="bg-green-500 text-white p-3 rounded-full flex items-center justify-center">
+  <div className="bg-purple-400 text-white p-3 rounded-full flex items-center justify-center">
     
   </div>
   <div className="flex-1">
     <p className='font-semibold text-gray-800 text-lg'>Recent activity</p>
     <i className="fas fa-truck text-xl"></i> 
     <p className="">New Purchase</p>
-    <p className="text-gray-600 text-sm">Order received for <span className="font-bold text-green-600">50 units</span> at <span className="font-bold text-blue-600">$1500</span></p>
+    <p className="text-gray-600 text-sm">Order received for <span className="font-bold text-purple-600">50 units</span> at <span className="font-bold text-blue-600">$1500</span></p>
   </div>
   <p className="text-gray-400 text-sm">30 mins ago</p>
 </div>
@@ -245,21 +245,21 @@ function Dashboard() {
     <p className="text-xl font-semibold text-gray-800">Sales Report/ <span className='text-sm text-gray-400'>This month</span> </p>
     <div className="flex items-center gap-2 text-gray-500">
       <i className="fas fa-calendar-day text-sm"></i> {/* Calendar icon */}
-      <p className="text-sm text-blue-400">July 2024</p>
+      <p className="text-sm text-gray-400">July 2024</p>
     </div>
   </div>
   <div className="flex flex-col  gap-6">
-    <div className="bg-blue-100 p-4 rounded-lg shadow-sm flex-1">
+    <div className="bg-gray-100 p-4 rounded-lg shadow-sm flex-1">
       <p className="text-sm font-semibold text-gray-700">Total Sales</p>
-      <p className=" text-2xl font-bold">$30,000</p>
+      <p className=" text-2xl text-gray-500 font-bold">$30,000</p>
     </div>
-    <div className="bg-green-100 p-4 rounded-lg shadow-sm flex-1">
+    <div className="bg-gray-100 p-4 rounded-lg shadow-sm flex-1">
       <p className="text-sm font-semibold text-gray-700">Total Profit</p>
-      <p className="text-2xl font-bold text-green-600">$10,000</p>
+      <p className="text-2xl font-bold text-gray-500">$10,000</p>
     </div>
-    <div className="bg-yellow-100 p-4 rounded-lg shadow-sm flex-1">
+    <div className="bg-gray-100 p-4 rounded-lg shadow-sm flex-1">
       <p className="text-sm font-semibold text-gray-700">Average Sale</p>
-      <p className="text-2xl font-bold text-yellow-600">$200</p>
+      <p className="text-2xl font-bold text-gray-500">$200</p>
     </div>
   </div>
   <div className="bg-gray-100 p-4 rounded-lg mt-4 w-full">

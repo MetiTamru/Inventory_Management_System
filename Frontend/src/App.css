@@ -8,7 +8,7 @@
   
 }
 .app-container{
-  background: #eeeded;
+  background: #f5f4f4;
   display: flex;
   height: 100vh;
 }
@@ -16,7 +16,7 @@
   flex: 1;
   height: 100vh;
   
-  background: #eeeded;
+  background: #f5f4f4;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -223,6 +223,12 @@ select:focus {
   margin-left: 25px;
   border-radius: 11px;
   font-size: 14px;
-  background: red;
+  background: #d70000;
   color: white;
+}
+.btn-primary{
+  background: #9847be;
+}
+.text-primary{
+  color: #9847be;
 }

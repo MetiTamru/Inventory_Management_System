@@ -28,7 +28,7 @@ const SidebarLink = styled(NavLink)`
   }
 
   &.active {
-   color: #a051ea;
+   color: #9847be;
   }
 `;
 
@@ -78,7 +78,7 @@ const DropdownLink = styled(NavLink)`
 
    &.active .active-dot{
     visibility: visible;
-    color: #a051ea; 
+    color: #9847be; 
     text-decoration: none;
     font-size:10px;
     margin-right:5px;
@@ -87,7 +87,7 @@ const DropdownLink = styled(NavLink)`
  &.active .active-icon{
     
     visibility: visible;
-    color: #a051ea; 
+    color: #9847be; 
     text-decoration: none;
     
     border-radius:30px;

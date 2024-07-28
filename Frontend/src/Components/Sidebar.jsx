@@ -1,3 +1,4 @@
+// Sidebar.js
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { FaBars } from "react-icons/fa";
@@ -21,7 +22,7 @@ const Nav = styled.div`
 
 const Icon = styled.div`
   font-size: 20px;
-  color: #a051ea;
+  color: #9847be;
   margin-left: 1rem;
 `;
 
@@ -55,7 +56,7 @@ const SidebarWrap = styled.div`
 
 const RightSidebar = styled.div`
   width: ${({ isOpen }) => (isOpen ? "400px" : "0")};
-  background: #fff;
+  background: #f5f4f4;
   overflow-x: hidden;
   transition: width 0.3s ease;
   height: 40px;
@@ -72,7 +73,7 @@ const RightSidebar = styled.div`
 const SearchInput = styled.input`
   padding: 5px;
   border-radius: 5px;
-  border: 1px solid #a051ea;
+  border: 1px solid #9847be;
   margin-left: 10px;
 `;
 
@@ -88,16 +89,17 @@ function Sidebar({ isOpen, toggleSidebar }) {
 
   const handleClickOutside = (event) => {
     if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
-      if(window.innerWidth < 760){
-        toggleSidebar(false)
+      if (window.innerWidth < 900) {
+        toggleSidebar(false);
       }
     }
   };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 

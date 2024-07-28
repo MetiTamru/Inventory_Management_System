@@ -1,121 +1,179 @@
-import React, { useState } from "react";
+import React from 'react';
+import addpic from "./assets/addpic.png";
 
 function AddItem() {
-  const [item, setItem] = useState({
-    name: "",
-    category: "",
-    quantity: "",
-    price: "",
-    description: ""
-  });
-
-  const [feedback, setFeedback] = useState({ message: "", success: false });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setItem({ ...item, [name]: value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Placeholder for form submission logic
-    setFeedback({ message: "Item added successfully!", success: true });
-  };
-
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="w-full max-w-lg bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-semibold text-gray-700 mb-6">Add New Item</h1>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="name" className="block text-sm font-medium text-gray-600 mb-1">Item Name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={item.name}
-              onChange={handleChange}
-              required
-              className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500"
-            />
+    <div className=" w-full flex justify-center  h-full mt-44 min-h-screen">
+      <div className="bg-white shadow-lg h-auto md:mt-0 rounded-lg p-8 w-full max-w-6xl overflow-auto">
+        <div className="text-center mb-8">
+          <p className="text-primary text-2xl font-semibold">Add Items to Stock</p>
+        </div>
+        <div className="flex flex-col md:flex-row gap-6">
+          
+          <div className="flex flex-col gap-6 w-full md:w-1/2">
+            {/* Item Photo */}
+            <div className="flex flex-col items-center">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Item Photo
+              </label>
+              <input
+                type="file"
+                placeholder="Enter item name"
+                className="w-full px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-purple-500"
+              />
+            </div>
+
+            {/* Item Name */}
+            <div className=''>
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Item Name
+              </label>
+              <input
+                type="text"
+                placeholder="Enter item name"
+                className="w-full px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-purple-500"
+              />
+            </div>
+            {/* Units */}
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Units
+              </label>
+              <input
+                type="text"
+                placeholder="Enter units"
+                className="w-full px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-purple-500"
+              />
+            </div>
+            {/* Supplier Name */}
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Supplier Name
+              </label>
+              <input
+                type="text"
+                placeholder="Enter supplier name"
+                className="w-full px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-purple-500"
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Main Category
+              </label>
+              <input
+                type="text"
+                placeholder="Enter supplier name"
+                className="w-full px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-purple-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Sub Category
+              </label>
+              <input
+                type="text"
+                placeholder="Enter supplier name"
+                className="w-full px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-purple-500"
+              />
+            </div>
+            
           </div>
-          <div className="mb-4">
-            <label htmlFor="category" className="block text-sm font-medium text-gray-600 mb-1">Category</label>
-            <input
-              type="text"
-              id="category"
-              name="category"
-              value={item.category}
-              onChange={handleChange}
-              required
-              className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500"
-            />
+          
+          {/* Right Column */}
+          <div className="flex flex-col gap-6 w-full md:w-1/2">
+            {/* Quantity */}
+            
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Item Size 
+              </label>
+              <input
+                type="text"
+                placeholder="Enter supplier name"
+                className="w-full px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-purple-500"
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Supplier 
+              </label>
+              <input
+                type="text"
+                placeholder="Enter supplier name"
+                className="w-full px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-purple-500"
+              />
+            </div>
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Quantity
+              </label>
+              <input
+                type="number"
+                placeholder="Enter quantity"
+                className="w-full px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-purple-500"
+              />
+            </div>
+            {/* Buying Price */}
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Buying Price
+              </label>
+              <input
+                type="number"
+                placeholder="Enter buying price"
+                className="w-full px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-purple-500"
+              />
+            </div>
+
+            {/* Selling Price */}
+            <div>
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Selling Price
+              </label>
+              <input
+                type="number"
+                placeholder="Enter selling price"
+                className="w-full px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-purple-500"
+              />
+            </div>
+
+            {/* Status */}
+            <div>
+              <label className="block text-gray-700 text-sm  font-bold mb-2">
+                Status
+              </label>
+              <div className="flex justify-center gap-4">
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    name="status"
+                    value="available"
+                    className="form-radio text-purple-500"
+                  />
+                  <span className="ml-2 text-gray-700">Available</span>
+                </label>
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    name="status"
+                    value="out_of_stock"
+                    className="form-radio text-purple-500"
+                  />
+                  <span className="ml-2 text-gray-700">Out of Stock</span>
+                </label>
+              </div>
+            </div>
           </div>
-          <div className="mb-4">
-            <label htmlFor="quantity" className="block text-sm font-medium text-gray-600 mb-1">Quantity</label>
-            <input
-              type="number"
-              id="quantity"
-              name="quantity"
-              value={item.quantity}
-              onChange={handleChange}
-              required
-              className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500"
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="price" className="block text-sm font-medium text-gray-600 mb-1">Price</label>
-            <input
-              type="number"
-              id="price"
-              name="price"
-              value={item.price}
-              onChange={handleChange}
-              required
-              className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500"
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="description" className="block text-sm font-medium text-gray-600 mb-1">Description</label>
-            <textarea
-              id="description"
-              name="description"
-              value={item.description}
-              onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500"
-            />
-          </div>
-          <div className="flex justify-between mt-6">
-            <button
-              type="submit"
-              className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
-            >
-              Save Item
-            </button>
-            <button
-              type="button"
-              className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
-              onClick={() => setItem({
-                name: "",
-                category: "",
-                quantity: "",
-                price: "",
-                description: ""
-              })}
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-        {feedback.message && (
-          <div
-            className={`mt-4 p-3 rounded-md text-center text-white ${
-              feedback.success ? 'bg-green-500' : 'bg-red-500'
-            }`}
+        </div>
+        <div className="flex justify-center mt-8">
+          <button
+            type="submit"
+            className="btn-primary w-full max-w-xs text-white py-2 px-4 rounded-lg transition-colors duration-200"
           >
-            {feedback.message}
-          </div>
-        )}
+            Add Item
+          </button>
+        </div>
       </div>
     </div>
   );

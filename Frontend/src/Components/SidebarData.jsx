@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTachometerAlt,faTruck,  faChartBar, faCogs, faChartLine, faCreditCard,  faListAlt, faBoxes, faReceipt, faCashRegister, faBoxOpen, faCubes, faFileInvoice, faUserTie, faCalendarAlt, faUndo, faChartPie, faAreaChart, faUsersCog, faBell, faExclamationTriangle, faEnvelopeOpenText, faUserFriends, faGift, faCog, faExchangeAlt} from "@fortawesome/free-solid-svg-icons";
+import { faTachometerAlt,faTruck,  faChartBar, faCogs, faChartLine, faCreditCard,  faListAlt, faBoxes, faReceipt, faCashRegister, faBoxOpen, faCubes, faFileInvoice, faUserTie, faCalendarAlt, faUndo, faChartPie, faAreaChart, faUsersCog, faBell, faExclamationTriangle, faEnvelopeOpenText, faUserFriends, faGift, faCog, faExchangeAlt, faUserPlus, faSearch} from "@fortawesome/free-solid-svg-icons";
 
 
 export const SidebarData = [
@@ -19,8 +19,8 @@ export const SidebarData = [
     
     subNav: [
       {
-        title: 'Sales Overview',
-        path: '/sales-management/sales-overview',
+        title: 'Items List',
+        path: '/manage-items/view-items',
         icon: <FontAwesomeIcon icon={faReceipt} />,
         roles: ["admin", "seller", "manager"],
 
@@ -47,18 +47,8 @@ export const SidebarData = [
     icon: <FontAwesomeIcon icon={faBoxOpen} />,
     roles: ["admin", "manager"],
     subNav: [
-      {
-        title: 'Product List',
-        path: '/inventory-management/product-list',
-        icon: <FontAwesomeIcon icon={faBoxOpen} />,
-        roles: ["admin", "manager"],
-      },
-      {
-        title: 'Stock Levels',
-        path: '/inventory-management/stock-level',
-        icon: <FontAwesomeIcon icon={faCubes} />,
-        roles: ["admin", "manager"],
-      },
+
+  
       {
         title: 'Suppliers',
         path: '/inventory-management/suppliers',
@@ -66,9 +56,9 @@ export const SidebarData = [
         roles: ["admin", "manager"],
       },
       {
-        title: 'Purchase Orders',
-        path: '/inventory-management/purchase-orders',
-        icon: <FontAwesomeIcon icon={faFileInvoice} />,
+        title: 'Add Supplier',
+        path: '/inventory-management/add-supplier',
+        icon: <FontAwesomeIcon icon={faUserPlus} />,
         roles: ["admin", "manager"],
       },
     ],
@@ -101,30 +91,11 @@ export const SidebarData = [
     ],
   },
   {
-    title: 'Transaction Management',
-    path: '/transaction-management',
-    icon: <FontAwesomeIcon icon={faExchangeAlt} />,
+    title: 'Check Availablity',
+    path: '/check-availablity',
+    icon: <FontAwesomeIcon icon={faSearch} />,
     roles: ["admin", "manager"],
-    subNav: [
-      {
-        title: 'Transaction List',
-        path: '/transaction-management/transactio-list',
-        icon: <FontAwesomeIcon icon={faListAlt} />,
-        roles: ["admin", "manager"],
-      },
-      {
-        title: 'Refunds and Returns',
-        path: '/transaction-management/refund-and-return',
-        icon: <FontAwesomeIcon icon={faUndo} />,
-        roles: ["admin", "manager"],
-      },
-      {
-        title: 'Payment Methods',
-        path: '/transaction-management/payment-methods',
-        icon: <FontAwesomeIcon icon={faCreditCard} />,
-        roles: ["admin", "manager"],
-      },
-    ],
+   
   },
   {
     title: 'Reports and Analytics',
