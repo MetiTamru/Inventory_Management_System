@@ -31,10 +31,10 @@ export const SidebarData = [
         icon: <FontAwesomeIcon icon={faCashRegister} />,
         roles: ["admin", "seller", "manager"],
 
-      },
+      }, 
       {
         title: 'Sales Reports',
-        path: '/sales-management/sales-report',
+        path: '/manage-items/sales-report',
         icon: <FontAwesomeIcon icon={faChartLine} />,
         roles: ["admin", "seller", "manager"],
 

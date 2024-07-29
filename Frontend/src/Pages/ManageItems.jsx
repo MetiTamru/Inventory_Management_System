@@ -1,7 +1,9 @@
 import React from 'react'
 import transaction from "../assets/transaction3.png";
+import box from "../assets/box.jfif";
+import products from "../assets/products.jfif";
 import sale from "../assets/sale.png";
-
+import {Link} from "react-router-dom"
 function SalesManagement() {
   const transactions = [
     {
@@ -30,54 +32,105 @@ function SalesManagement() {
   return (
     <div className='p-4 w-full h-full mt-28 min-h-screen'>
        <div className="flex flex-wrap justify-around shadow-md bg-white  p-6">
-       <div className="flex flex-row items-center justify-center  sm:w-1/2 lg:w-1/4">
-          <div className="text-start mr-4">
-            <p className="text-2xl font-bold text-purple-500">456</p>
-            <p className="text-sm">Total Sales</p>
+        <div className="flex flex-row gap-12 md:gap-4 items-center justify-center sm:w-1/2 lg:w-1/4  mb-2">
+          <div className="text-start ">
+            <p className=" primary text-2xl font-bold ">60</p>
+            <p className="text-sm">Total Items</p>
           </div>
           <div>
-            <img src={sale} alt="Sale" className="h-16" />
+            <img src={products} alt="Supplier" className="h-16" />
           </div>
-     
         </div>
-        <div className="flex flex-row items-center justify-center sm:w-1/2 lg:w-1/4 mb-2">
+        <div className="flex flex-row md:gap-2 items-center justify-center sm:w-1/2 lg:w-1/4 mb-2">
           <div className="text-start ">
-            <p className="text-2xl font-bold text-purple-500">200</p>
-            <p className="text-sm">Total Transaction</p>
+            <p className="primary text-2xl font-bold ">200</p>
+            <p className="text-sm">Todays Transaction</p>
           </div>
           <div>
             <img src={transaction} alt="Category" className="h-16" />
           </div>
         </div>
-       
-       
+        <div className="flex flex-row gap-14  md:gap-2 items-center justify-center  mb-3 sm:w-1/2 lg:w-1/4">
+          <div className="text-start">
+            <p className="primary text-2xl font-bold ">170</p>
+            <p className="text-sm">Total Sales</p>
+          </div>
+          <div>
+            <img src={sale} alt="Products" className="h-16" />
+          </div>
+        </div>
+        <div className="flex flex-row md:gap-2 items-center justify-center   sm:w-1/2 lg:w-1/4">
+          <div className="text-start ">
+            <p className="primary text-2xl font-bold ">456</p>
+            <p className="text-sm">Outof Stock Items</p>
+          </div>
+          <div>
+            <img src={box} alt="Sale" className="h-16" />
+          </div>
+     
+        </div>
       </div>
-       {/* list o sales section */}
-       <div className="max-w-4xl mx-auto p-4">
-      <h2 className="text-2xl font-semibold mb-4">Recent Transactions</h2>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-200">
-          <thead >
-            <tr className="bg-purple-300">
-              <th className="py-2 px-4 border-b border-purple-100 text-center">Date</th>
-              <th className="py-2 px-4 border-b border-gray-200 text-center">Time</th>
-              <th className="py-2 px-4 border-b border-purple-200 text-center">Amount</th>
-              <th className="py-2 px-4 border-b border-purple-200 text-center">Customer Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            {transactions.map((transaction) => (
-              <tr key={transaction.id} className="hover:bg-gray-50">
-                <td className="py-2 px-4 border-b border-gray-200">{transaction.date}</td>
-                <td className="py-2 px-4 border-b border-gray-200">{transaction.time}</td>
-                <td className="py-2 px-4 border-b border-gray-200">${transaction.amount.toFixed(2)}</td>
-                <td className="py-2 px-4 border-b border-gray-200">{transaction.customerName}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+
+       
+       <div className="p-6">
+  
+  <div className="mb-4">
+    <h1 className="text-2xl font-bold">Item Management Dashboard</h1>
+  </div>
+
+  {/* Summary Widgets */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 mb-6">
+    
+    <div className="bg-white p-4 shadow rounded-lg">
+      <h2 className="text-xl font-semibold">Total Sales</h2>
+      <p className="text-2xl">$12,345</p>
     </div>
+    <div className="bg-white p-4 shadow rounded-lg">
+      <h2 className="text-xl font-semibold">Low Stock Alerts</h2>
+      <ul>
+        <li>Item A - 5 units left</li>
+        <li>Item B - 3 units left</li>
+      </ul>
+    </div>
+  </div>
+
+  {/* Quick Access Buttons */}
+  <div className=''>
+  <div className="mb-6 flex flex-row md:flex-row gap-4 items-center justify-center">
+    <Link to="/manage-items/add-item">
+    <button className="btn-primary text-white py-2 px-4 rounded-lg ">
+      Add New Item
+    </button>
+    </Link>
+    
+    <Link to="/manage-items/view-items">
+    <button className="border border-purple-500 text-black py-2 px-4 rounded-lg">
+      View Items List
+    </button>
+    </Link>
+    
+    
+  </div>
+  </div>
+  
+
+  {/* Recent Items or Activity */}
+  <div className="bg-white p-4 shadow rounded-lg mb-6">
+    <h2 className="text-xl font-semibold">Recent Items Added</h2>
+    <ul>
+      <li>Item X - Added on 07/28/2024</li>
+      <li>Item Y - Added on 07/27/2024</li>
+    </ul>
+  </div>
+
+  {/* Graphical Representations */}
+  <div className="bg-white p-4 shadow rounded-lg">
+    <h2 className="text-xl font-semibold">Sales Trends</h2>
+    {/* Placeholder for chart */}
+    <div className="h-64 bg-gray-200 rounded-lg"></div>
+  </div>
+</div>
+
     </div>
   )
 }

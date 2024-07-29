@@ -77,7 +77,7 @@ const SearchInput = styled.input`
   margin-left: 10px;
 `;
 
-function Sidebar({ isOpen, toggleSidebar }) {
+function Sidebar({userRole, isOpen, toggleSidebar }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [openIndex, setOpenIndex] = useState(null);
@@ -106,6 +106,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
   const currentUserRole = "admin";
 
   const filteredSidebarData = SidebarData.filter((item) => {
+    item.roles.includes(userRole)
     if (!item.roles) {
       return true;
     }

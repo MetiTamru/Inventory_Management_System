@@ -5,7 +5,7 @@ import LoginPage from "./Components/LoginPage";
 import CustomerList from "./Pages/SubPages/CustomerList";
 import ViewItems from "./Pages/SubPages/ViewItems";
 import AddItem from "./Pages/SubPages/AddItem";
-import SalesReports from "./Pages/SubPages/SalesReports";
+import SalesReports from "./Pages/SubPages/SalesReport";
 import InventoryManagment from "./Pages/InventoryManagment";
 
 import Suppliers from "./Pages/SubPages/Suppliers";
@@ -47,7 +47,7 @@ function App() {
         <Route path="/manage-items" element={<ManageItems />} />
         <Route path="/manage-items/view-items" element={<ViewItems />} />
         <Route path="/manage-items/add-item" element={<AddItem />} />
-        <Route path="/sales-manageement/sales-report" element={<SalesReports />} />
+        <Route path="/manage-items/sales-report" element={<SalesReports />} />
         <Route path="/inventory-management" element={<InventoryManagment />} />
         <Route path="/inventory-management/add-supplier" element={<AddSupplier />} />
         

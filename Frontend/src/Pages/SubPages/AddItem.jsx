@@ -1,7 +1,41 @@
-import React from 'react';
-import addpic from "./assets/addpic.png";
+import React, { useState } from 'react';
 
 function AddItem() {
+  const [items ,setItems] = useState({
+    photo :null,
+    name :"",
+    units :"",
+    supplierName :"",
+    mainCategory :"",
+    subCategory :"",
+    size :"",
+    brand :"",
+    quantity :"",
+    buyingPrice :"",
+    sellingPrice :"",
+    status :"",
+
+  })
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setItems((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  const handleStatusChange = (e) => {
+    setItems((prevData) => ({
+      ...prevData,
+      status: e.target.value, 
+    }));
+  };
+
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(items);
+  };
+
   return (
     <div className=" w-full flex justify-center  h-full mt-44 min-h-screen">
       <div className="bg-white shadow-lg h-auto md:mt-0 rounded-lg p-8 w-full max-w-6xl overflow-auto">
@@ -18,6 +52,9 @@ function AddItem() {
               </label>
               <input
                 type="file"
+               name='photo'
+                
+                onChange={handleChange}
                 placeholder="Enter item name"
                 className="w-full px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-purple-500"
               />
@@ -30,6 +67,9 @@ function AddItem() {
               </label>
               <input
                 type="text"
+                name='name'
+                value={items.name}
+                onChange={handleChange}
                 placeholder="Enter item name"
                 className="w-full px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-purple-500"
               />
@@ -39,11 +79,18 @@ function AddItem() {
               <label className="block text-gray-700 text-sm font-bold mb-2">
                 Units
               </label>
-              <input
-                type="text"
-                placeholder="Enter units"
-                className="w-full px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-purple-500"
-              />
+              
+          <select
+            name="units"
+            id="role"
+            value={items.units}
+            onChange={handleChange}
+            className='w-full p-2 mb-2 border-b-2 border-gray-300 focus:border-purple-700 focus:outline-none'>
+            <option value="" disabled>Select role</option>
+            <option value="admin">Pcs</option>
+            <option value="manager">KG</option>
+            <option value="cashier">Cashier</option>
+          </select>
             </div>
             {/* Supplier Name */}
             <div>
@@ -52,6 +99,9 @@ function AddItem() {
               </label>
               <input
                 type="text"
+                name='supplierName'
+                value={items.supplierName}
+                onChange={handleChange}
                 placeholder="Enter supplier name"
                 className="w-full px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-purple-500"
               />
@@ -62,6 +112,9 @@ function AddItem() {
               </label>
               <input
                 type="text"
+                name='mainCategory'
+                value={items.mainCategory}
+                onChange={handleChange}
                 placeholder="Enter supplier name"
                 className="w-full px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-purple-500"
               />
@@ -73,6 +126,9 @@ function AddItem() {
               </label>
               <input
                 type="text"
+                name='subCategory'
+                value={items.subCategory}
+                onChange={handleChange}
                 placeholder="Enter supplier name"
                 className="w-full px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-purple-500"
               />
@@ -90,16 +146,22 @@ function AddItem() {
               </label>
               <input
                 type="text"
+                name='size'
+                value={items.size}
+                onChange={handleChange}
                 placeholder="Enter supplier name"
                 className="w-full px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-purple-500"
               />
             </div>
             <div>
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                Supplier 
+                Brand 
               </label>
               <input
                 type="text"
+                name='brand'
+                value={items.brand}
+                onChange={handleChange}
                 placeholder="Enter supplier name"
                 className="w-full px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-purple-500"
               />
@@ -110,6 +172,9 @@ function AddItem() {
               </label>
               <input
                 type="number"
+                name='quantity'
+                value={items.quantity}
+                onChange={handleChange}
                 placeholder="Enter quantity"
                 className="w-full px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-purple-500"
               />
@@ -121,6 +186,9 @@ function AddItem() {
               </label>
               <input
                 type="number"
+                name='buyingPrice'
+                value={items.buyingPrice}
+                onChange={handleChange}
                 placeholder="Enter buying price"
                 className="w-full px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-purple-500"
               />
@@ -133,6 +201,9 @@ function AddItem() {
               </label>
               <input
                 type="number"
+                name='sellingPrice'
+                value={items.sellingPrice}
+                onChange={handleChange}
                 placeholder="Enter selling price"
                 className="w-full px-4 py-2 border rounded-lg text-gray-700 bg-gray-50 focus:outline-none focus:border-purple-500"
               />
@@ -147,8 +218,11 @@ function AddItem() {
                 <label className="inline-flex items-center">
                   <input
                     type="radio"
-                    name="status"
+                    name='status'
                     value="available"
+                    checked={items.status === "available"}
+                    onChange={handleStatusChange}
+                    
                     className="form-radio text-purple-500"
                   />
                   <span className="ml-2 text-gray-700">Available</span>
@@ -156,8 +230,10 @@ function AddItem() {
                 <label className="inline-flex items-center">
                   <input
                     type="radio"
-                    name="status"
-                    value="out_of_stock"
+                    name='status'
+                    value="unavailable"
+                    checked={items.status === "unavailable"}
+                    onChange={handleStatusChange}
                     className="form-radio text-purple-500"
                   />
                   <span className="ml-2 text-gray-700">Out of Stock</span>
@@ -169,6 +245,7 @@ function AddItem() {
         <div className="flex justify-center mt-8">
           <button
             type="submit"
+            onClick={handleSubmit}
             className="btn-primary w-full max-w-xs text-white py-2 px-4 rounded-lg transition-colors duration-200"
           >
             Add Item
