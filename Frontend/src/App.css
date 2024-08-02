@@ -115,9 +115,15 @@ select:focus {
   margin-left:1rem;
   transition: all 0.3s ease;
 }
-
+.registartion-page {
+  margin: 0;
+  padding: 0;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+}
 .login-container {
-  background-image: url('C:\Users\meti\stufs\3D Objects\My projects\Shop New\Frontend\src\assets/bkgr.png');
+  
   background-size: cover;
   background-position: center;
   display: flex;
@@ -127,13 +133,13 @@ select:focus {
   height: 100vh;
   
 }
-/* LoginPage.css */
+
 
 
 .content-wrapper {
   display: flex;
   flex-direction: row;
-  align-items: flex-end; /* Aligns items at the bottom of the container */
+  align-items: flex-end; 
   justify-content: space-between;
   width: 80%;
 }
@@ -148,15 +154,15 @@ select:focus {
 
 .bottom-image {
   width: 500px;
-  margin-top: auto; /* Pushes the image to the bottom */
+  margin-top: auto; 
 }
 
 .signin-form-container {
-  flex: 0 0 300px; /* Fixed width for the sign-in form */
-  background-color: #fff; /* Background color for the form */
+  flex: 0 0 300px; 
+  background-color: #fff;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow effect */
-  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  border-radius: 8px; 
 }
 
 .signin-title {
@@ -204,12 +210,12 @@ select:focus {
 }
 
 .sidebar-wrap {
-  overflow-y: scroll; /* or auto */
+  overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
+
 .sidebar-wrap::-webkit-scrollbar {
   display: none;
 }
@@ -227,7 +233,7 @@ select:focus {
   color: white;
 }
 .btn-primary{
-  background: #9847be;
+  background: #8150A0;
 }
 .text-primary{
   color: #9847be;

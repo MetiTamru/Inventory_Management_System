@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { SidebarData } from './SidebarData';
-
-
+import backgroundImage from '../assets/login2.png';
+import { useAuth } from './AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
   const [formData, setFormData] = useState({
@@ -10,6 +10,8 @@ function LoginPage() {
     password: "",
     role: ""
   });
+  const { setUser } = useAuth(); 
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,11 +23,14 @@ function LoginPage() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setUser(formData); 
+    navigate('/');
     console.log(formData);
   };
 
   return (
-    <div className='w-full h-screen flex flex-col items-center justify-center bg-gradient-to-b from-purple-600 to-purple-900 text-white'>
+    <div className='login-container w-full h-screen flex flex-col items-center justify-center bg-gradient-to-b  text-white'
+    style={{ backgroundImage: `url(${backgroundImage})` }}>
       <div className='mb-8 text-3xl font-bold'>
         <p>Sign into your Account</p>
       </div>
@@ -59,7 +64,7 @@ function LoginPage() {
             className='w-full p-2 mb-2 border-b-2 border-gray-300 focus:border-purple-700 focus:outline-none'>
             <option value="" disabled>Select role</option>
             <option value="admin">Admin</option>
-            <option value="manager">Manager</option>
+            
             <option value="cashier">Cashier</option>
           </select>
         </div>

@@ -123,12 +123,7 @@ function SalesManagement() {
     </ul>
   </div>
 
-  {/* Graphical Representations */}
-  <div className="bg-white p-4 shadow rounded-lg">
-    <h2 className="text-xl font-semibold">Sales Trends</h2>
-    {/* Placeholder for chart */}
-    <div className="h-64 bg-gray-200 rounded-lg"></div>
-  </div>
+  
 </div>
 
     </div>

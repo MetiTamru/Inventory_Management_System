@@ -1,5 +1,5 @@
 import React from 'react';
-import supplier from "../assets/supplier.png";
+import transaction from "../assets/transaction3.png";
 import category from "../assets/category.jfif";
 import products from "../assets/products.jfif";
 import sale from "../assets/sale.png";
@@ -77,13 +77,13 @@ function Dashboard() {
   return (
     <div className="p-4 w-full h-full mt-32 min-h-screen">
       <div className="flex flex-wrap justify-around shadow-md bg-white  p-6">
-        <div className="flex flex-row items-center justify-center sm:w-1/2 lg:w-1/4 pl-2 mb-2">
-          <div className="text-start">
-            <p className=" primary text-2xl font-bold ">60</p>
-            <p className="text-sm">Total Suppliers</p>
+      <div className="flex flex-row md:gap-2 items-center justify-center sm:w-1/2 lg:w-1/4 mb-2">
+          <div className="text-start ">
+            <p className="primary text-2xl font-bold ">200</p>
+            <p className="text-sm">Todays Transaction</p>
           </div>
           <div>
-            <img src={supplier} alt="Supplier" className="h-16" />
+            <img src={transaction} alt="Category" className="h-16" />
           </div>
         </div>
         <div className="flex flex-row items-center justify-center sm:w-1/2 lg:w-1/4 mb-2">
@@ -250,36 +250,19 @@ function Dashboard() {
   </div>
   <div className="flex flex-col  gap-6">
     <div className="bg-gray-100 p-4 rounded-lg shadow-sm flex-1">
-      <p className="text-sm font-semibold text-gray-700">Total Sales</p>
+      <p className="text-sm font-semibold text-gray-700">Total Buying</p>
       <p className=" text-2xl text-gray-500 font-bold">$30,000</p>
     </div>
     <div className="bg-gray-100 p-4 rounded-lg shadow-sm flex-1">
-      <p className="text-sm font-semibold text-gray-700">Total Profit</p>
+      <p className="text-sm font-semibold text-gray-700">Total Sales</p>
       <p className="text-2xl font-bold text-gray-500">$10,000</p>
     </div>
     <div className="bg-gray-100 p-4 rounded-lg shadow-sm flex-1">
-      <p className="text-sm font-semibold text-gray-700">Average Sale</p>
+      <p className="text-sm font-semibold text-gray-700">Total Profit</p>
       <p className="text-2xl font-bold text-gray-500">$200</p>
     </div>
   </div>
-  <div className="bg-gray-100 p-4 rounded-lg mt-4 w-full">
-      <p className="text-sm font-semibold text-gray-700 mb-2">Sales Overview</p>
-      <div className="h-40">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={categoryData}
-            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="sales" fill="#975fb0" />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-    </div>
+ 
 </div>
 
     </div>

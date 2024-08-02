@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import AxiosInstance from './Axios';
 
 function RegisterPage() {
+  
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -18,9 +23,28 @@ function RegisterPage() {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(formData);
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      return;
+  };
+  try {
+    const response = await AxiosInstance.post('auth/users/', {
+      email: formData.email,
+      password: formData.password,
+      re_password: formData.confirmPassword,
+      name: formData.name,
+      role: formData.role,
+    });
+    console.log('Registration successful:', response.data);
+      setSuccess(true);
+      setError(null);
+    } catch (error) {
+      console.error('Registration failed:', error.response.data);
+      setError('Registration failed. Please try again.');
+    }
   };
 
   return (

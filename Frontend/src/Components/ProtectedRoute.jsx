@@ -1,18 +1,19 @@
+
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route,  Navigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 
-const ProtectedRoute = ({ component: Component, allowedRoles, ...rest }) => {
-  const { userRole } = useAuth();
+const ProtectedRoute = ({ element: Element, ...rest }) => {
+  const { user } = useAuth();
 
   return (
     <Route
       {...rest}
-      render={(props) => 
-        allowedRoles.includes(userRole) ? (
-          <Component {...props} />
+      element={(props) =>
+        user && user.role === 'admin' ? (
+          <Element {...props} />
         ) : (
-          <Redirect to="/" />
+          <Navigate to="/Authentication/log-in" />
         )
       }
     />

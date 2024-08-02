@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTachometerAlt,faTruck,  faChartBar, faCogs, faChartLine, faCreditCard,  faListAlt, faBoxes, faReceipt, faCashRegister, faBoxOpen, faCubes, faFileInvoice, faUserTie, faCalendarAlt, faUndo, faChartPie, faAreaChart, faUsersCog, faBell, faExclamationTriangle, faEnvelopeOpenText, faUserFriends, faGift, faCog, faExchangeAlt, faUserPlus, faSearch} from "@fortawesome/free-solid-svg-icons";
+import { faTachometerAlt,faTruck,  faChartBar, faCogs, faChartLine, faCreditCard,  faListAlt, faBoxes, faReceipt, faCashRegister, faBoxOpen, faCubes, faFileInvoice, faUserTie, faCalendarAlt, faUndo, faChartPie, faAreaChart, faUsersCog, faBell, faExclamationTriangle, faEnvelopeOpenText, faUserFriends, faGift, faCog, faExchangeAlt, faUserPlus, faSearch, faMoneyBill1Wave, faFileInvoiceDollar, faFolderPlus, faFolder} from "@fortawesome/free-solid-svg-icons";
 
 
 export const SidebarData = [
@@ -8,13 +8,13 @@ export const SidebarData = [
     title: 'Dashboard',
     path: '/',
     icon: <FontAwesomeIcon icon={faTachometerAlt} />,
-    roles: ["admin", "seller", "manager"],
+    roles: ["admin", "cashier"],
   },
   {
     title: 'Manage Items',
     path: '/manage-items',
     icon: <FontAwesomeIcon icon={faReceipt} />,
-    roles: ["admin", "seller", "manager"],
+    roles: ["admin", "cashier"],
 
     
     subNav: [
@@ -22,105 +22,61 @@ export const SidebarData = [
         title: 'Items List',
         path: '/manage-items/view-items',
         icon: <FontAwesomeIcon icon={faReceipt} />,
-        roles: ["admin", "seller", "manager"],
+        roles: ["admin"],
 
       },
       {
         title: 'Add Item',
         path: '/manage-items/add-item',
         icon: <FontAwesomeIcon icon={faCashRegister} />,
-        roles: ["admin", "seller", "manager"],
+        roles: ["admin", "cashier"],
+
+      },
+      {
+        title: 'Categories',
+        path: '/manage-items/categories',
+        icon: <FontAwesomeIcon icon={faFolderPlus} />,
+        roles: ["admin", "cashier"],
+
+      },
+      {
+        title: 'Add Item',
+        path: '/manage-items/add-category',
+        icon: <FontAwesomeIcon icon={faFolder} />,
+        roles: ["admin", "cashier"],
 
       }, 
       {
         title: 'Sales Reports',
         path: '/manage-items/sales-report',
         icon: <FontAwesomeIcon icon={faChartLine} />,
-        roles: ["admin", "seller", "manager"],
+        roles: ["admin", "cashier"],
 
       },
     ],
   },
-  {
-    title: 'Inventory Management',
-    path: '/inventory-management',
-    icon: <FontAwesomeIcon icon={faBoxOpen} />,
-    roles: ["admin", "manager"],
-    subNav: [
-
+ 
   
-      {
-        title: 'Suppliers',
-        path: '/inventory-management/suppliers',
-        icon: <FontAwesomeIcon icon={faTruck} />,
-        roles: ["admin", "manager"],
-      },
-      {
-        title: 'Add Supplier',
-        path: '/inventory-management/add-supplier',
-        icon: <FontAwesomeIcon icon={faUserPlus} />,
-        roles: ["admin", "manager"],
-      },
-    ],
-  },
+  
   {
-    title: 'Employee Management',
-    path: '/employe-management',
-    icon: <FontAwesomeIcon icon={faUserTie} />,
-    roles: ["admin", "manager"],
+    title: 'Expenses',
+    path: '/expenses',
+    icon: <FontAwesomeIcon icon={faMoneyBill1Wave} />,
+    roles: ["admin", "cashier"],
     subNav: [
       {
-        title: 'Employee List',
-        path: '/employe-management/emloyee-list',
-        icon: <FontAwesomeIcon icon={faUserTie} />,
-        roles: ["admin", "manager"],
+        title: 'View Expenses',
+        path: '/expenses/view',
+        icon: <FontAwesomeIcon icon={faListAlt} />,
+        roles: ["admin"],
       },
       {
-        title: 'Performance Tracking',
-        path: '/employe-management/performance-tracking',
-        icon: <FontAwesomeIcon icon={faChartBar} />,
-        roles: ["admin", "manager"],
-      },
-      {
-        title: 'Shift Management',
-        path: '/employe-management/shift-management',
-        icon: <FontAwesomeIcon icon={faCalendarAlt} />,
-        roles: ["admin", "manager"],
+        title: 'Add Expenses',
+        path: '/expenses/add',
+        icon: <FontAwesomeIcon icon={faFileInvoiceDollar} />,
+        roles: ["cashier","admin"],
       },
       
-    ],
-  },
-  {
-    title: 'Check Availablity',
-    path: '/check-availablity',
-    icon: <FontAwesomeIcon icon={faSearch} />,
-    roles: ["admin", "manager"],
-   
-  },
-  {
-    title: 'Reports and Analytics',
-    path: '/reports-and-analytics',
-    icon: <FontAwesomeIcon icon={faChartBar} />,
-    roles: ["admin", "manager"],
-    subNav: [
-      {
-        title: 'Sales Reports',
-        path: '/reports-and-analytics/sales-reports',
-        icon: <FontAwesomeIcon icon={faChartPie} />,
-        roles: ["admin", "manager"],
-      },
-      {
-        title: 'Inventory Reports',
-        path: '/reports-and-analytics/inventory-reports',
-        icon: <FontAwesomeIcon icon={faBoxes} />,
-        roles: ["admin", "manager"],
-      },
-      {
-        title: 'Employee Reports',
-        path: '/reports-and-analytics/employee-reports',
-        icon: <FontAwesomeIcon icon={faAreaChart} />,
-        roles: ["admin", "manager"],
-      },
     ],
   },
   {
@@ -154,19 +110,19 @@ export const SidebarData = [
     title: 'Notifications and Alerts',
     path: '/notification-and-alert',
     icon: <FontAwesomeIcon icon={faBell} />,
-    roles: ["admin", "manager"],
+    roles: ["admin"],
     subNav: [
       {
         title: 'Alerts List',
         path: '/notification-and-alert/alert-list',
         icon: <FontAwesomeIcon icon={faExclamationTriangle} />,
-        roles: ["admin", "manager"],
+        roles: ["admin"],
       },
       {
         title: 'Notification Preferences',
         path: '/notification-and-alert/notification-preference',
         icon: <FontAwesomeIcon icon={faEnvelopeOpenText} />, 
-        roles: ["admin", "manager"],
+        roles: ["admin"],
 
       },
       
@@ -174,22 +130,17 @@ export const SidebarData = [
     ],
   },
   {
-    title: 'Customer Management',
-    path: '/customer-managemenet',
+    title: 'Cashier Management',
+    path: '/cashier-management',
     icon: <FontAwesomeIcon icon={faUserFriends} />,
-    roles: ["admin", "seller"],
+    roles: ["admin"],
     subNav: [
+      
       {
-        title: 'Customer List',
-        path: '/customer-managemenet/customer-list',
-        icon: <FontAwesomeIcon icon={faUserFriends} />,
-        roles: ["admin", "seller"],
-      },
-      {
-        title: 'Loyalty Programs',
-        path: '/customer-managemenet/loyality-programs',
-        icon: <FontAwesomeIcon icon={faGift} />, 
-        roles: ["admin", "seller"],
+        title: 'Register Cashier',
+        path: '/cashier-management/register',
+        icon: <FontAwesomeIcon icon={faUserPlus} />, 
+        roles: ["admin"],
       },
       
       

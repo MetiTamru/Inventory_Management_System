@@ -5,6 +5,7 @@ import { FaBars } from "react-icons/fa";
 import { SidebarData } from "./SidebarData";
 import SubMenu from "./SubMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useAuth } from '../Components/AuthContext';
 import { faAngleLeft, faSearch } from "@fortawesome/free-solid-svg-icons";
 import me from "../assets/me.jpg";
 
@@ -78,6 +79,7 @@ const SearchInput = styled.input`
 `;
 
 function Sidebar({userRole, isOpen, toggleSidebar }) {
+  const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [openIndex, setOpenIndex] = useState(null);
@@ -103,18 +105,29 @@ function Sidebar({userRole, isOpen, toggleSidebar }) {
     };
   }, []);
 
-  const currentUserRole = "admin";
+  
 
-  const filteredSidebarData = SidebarData.filter((item) => {
-    item.roles.includes(userRole)
-    if (!item.roles) {
-      return true;
-    }
-    if (item.roles.includes(currentUserRole)) {
-      return true;
-    }
-    return false;
-  });
+
+
+const filteredSidebarData = SidebarData.map((item) => {
+
+  const filteredSubNav = item.subNav
+    ? item.subNav.filter((subItem) => {
+        if (!subItem.roles) {
+          return true;
+        }
+        return subItem.roles.includes(user.role);
+      })
+    : [];
+
+
+  if (!item.roles || item.roles.includes(user.role)) {
+    return { ...item, subNav: filteredSubNav };
+  }
+  return null;
+}).filter((item) => item !== null);
+
+
 
   return (
     <>
