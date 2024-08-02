@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import axiosInstance from '../../Components/Axios';
 
 const AddCategory = () => {
-  const { id } = useParams(); // Get ID from URL params (if editing)
+  const { id } = useParams(); 
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -51,7 +51,7 @@ const AddCategory = () => {
         await axiosInstance.post('/api/categories/', formData);
         alert('Category registered successfully!');
       }
-      navigate('/manage-items/categories/'); // Redirect after success
+      navigate('/manage-items/categories/'); 
     } catch (err) {
       setError('Failed to save category details.');
     } finally {

@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../Components/Axios';
 
 const RegisterCashier = () => {
-  const { id } = useParams(); // Get ID from URL params (if editing)
+  const { id } = useParams(); 
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -50,11 +50,11 @@ const RegisterCashier = () => {
         await axiosInstance.put(`/api/users/${id}/`, formData);
         alert('Cashier updated successfully!');
       } else {
-        // Register new cashier
+        
         await axiosInstance.post('/api/create-user/', formData);
         alert('Cashier registered successfully!');
       }
-      navigate('/cashier-management'); // Redirect after success
+      navigate('/cashier-management'); 
     } catch (err) {
       setError('Failed to save cashier details.');
     } finally {
