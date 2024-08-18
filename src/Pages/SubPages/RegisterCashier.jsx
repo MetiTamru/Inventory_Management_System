@@ -41,105 +41,127 @@ const RegisterCashier = () => {
   };
   
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    console.log(formData)
+    e.preventDefault(); 
+    setLoading(true); 
+  
+    console.log('Form Data:', formData); 
+    
     try {
+      let response;
+      
       if (id) {
-        
-        await axiosInstance.put(`/api/users/${id}/`, formData);
+        response = await axiosInstance.put(`/api/users/${id}/`, formData);
         alert('Cashier updated successfully!');
       } else {
-        
-        await axiosInstance.post('/auth/users/', formData);
+        response = await axiosInstance.post('/auth/users/', formData);
         alert('Cashier registered successfully!');
       }
+      
+      console.log('Response:', response); 
+      
       navigate('/cashier-management'); 
     } catch (err) {
-      setError('Failed to save cashier details.');
+      console.error('Error:', err.response || err.message); 
+      setError('Failed to save cashier details.'); 
     } finally {
-      setLoading(false);
+      setLoading(false); 
     }
   };
-
-  return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">{id ? 'Edit Cashier' : 'Register Cashier'}</h1>
-      {error && <p className="text-red-500">{error}</p>}
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md">
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-sm font-semibold mb-2">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-md"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="name" className="block text-sm font-semibold mb-2">Name</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-md"
-            required
-          />
-        </div>
-        {!id && (
-          <div className="mb-4">
-            <label htmlFor="password" className="block text-sm font-semibold mb-2">Password</label>
-            <input
-              type="text"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded-md"
-              required
-            />
-          </div>
-        )}
-        <div className="mb-4">
-          <label className="block text-sm font-semibold mb-2">Status</label>
-          <select
-            name="is_active"
-            value={formData.is_active}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-md"
-          >
-            <option value={true}>Active</option>
-            <option value={false}>Inactive</option>
-          </select>
-        </div>
-      
-        <div className="mb-4">
-          <label className="block text-sm font-semibold mb-2">Role</label>
-          <select
-            name="role"
-            value={formData.role}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded-md"
-          >
-             <option value="" disabled selected>Select role</option>
-            <option value="Admin">admin</option>
-            <option value="Cashier">Cashier</option>
-          </select>
-        </div>
-        <button
-          type="submit"
-          className="btn-primary w-1/2 text-white p-2 rounded-md "
-        >
-          {id ? 'Update Cashier' : 'Register Cashier'}
-        </button>
-      </form>
+  
+  
+  const LoadingSpinner = () => (
+    <div className="flex justify-center items-center">
+      <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-[#783f9c]"></div>
+      <p className="ml-4  text-[#783f9c]">Loading...</p>
     </div>
   );
-};
+  
+
+    
+    return (
+      <div className="container mx-auto p-6">
+        <h1 className="text-2xl font-bold mb-6">{id ? 'Edit Cashier' : 'Register Cashier'}</h1>
+        {error && <p className="text-red-500">{error}</p>}
+        
+        {loading ? (
+          <LoadingSpinner />
+        ) : (
+          <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md">
+            <div className="mb-4">
+              <label htmlFor="email" className="block text-sm font-semibold mb-2">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded-md"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="name" className="block text-sm font-semibold mb-2">Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded-md"
+                required
+              />
+            </div>
+            {!id && (
+              <div className="mb-4">
+                <label htmlFor="password" className="block text-sm font-semibold mb-2">Password</label>
+                <input
+                  type="text"
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded-md"
+                  required
+                />
+              </div>
+            )}
+            <div className="mb-4">
+              <label className="block text-sm font-semibold mb-2">Status</label>
+              <select
+                name="is_active"
+                value={formData.is_active}
+                onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded-md"
+              >
+                <option value={true}>Active</option>
+                <option value={false}>Inactive</option>
+              </select>
+            </div>
+            
+            <div className="mb-4">
+              <label className="block text-sm font-semibold mb-2">Role</label>
+              <select
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded-md"
+              >
+                <option value="" disabled>Select role</option>
+                <option value="Admin">Admin</option>
+                <option value="Cashier">Cashier</option>
+              </select>
+            </div>
+            <button
+              type="submit"
+              className="btn-primary w-1/2 text-white p-2 rounded-md"
+            >
+              {id ? 'Update Cashier' : 'Register Cashier'}
+            </button>
+          </form>
+        )}
+      </div>
+    );
+  };
+
 
 export default RegisterCashier;
