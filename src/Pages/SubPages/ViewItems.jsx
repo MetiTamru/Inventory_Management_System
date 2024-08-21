@@ -159,7 +159,8 @@ const ViewItems = () => {
                 <th className="py-3 px-4 border-b border-gray-200 text-left text-sm font-semibold">Main Category</th>
                 <th className="py-3 px-4 border-b border-gray-200 text-left text-sm font-semibold">Sub Category</th>
                 
-                
+                <th className="py-3 px-4 border-b border-gray-200 text-left text-sm font-semibold">Added By</th>
+
                 <th className="py-3 px-4 border-b border-gray-200 text-left text-sm font-semibold">Quantity</th>
                 
                 <th className="py-3 px-4 border-b border-gray-200 text-left text-sm font-semibold">Buying Price</th>
@@ -181,6 +182,7 @@ const ViewItems = () => {
                   <td className="py-3 px-4 border-b border-gray-200 text-sm">{item.size}</td>
                   <td className="py-3 px-4 border-b border-gray-200 text-sm">{mainCategory}</td>
                   <td className="py-3 px-4 border-b border-gray-200 text-sm">{subCategory}</td>
+                  <td className="py-3 px-4 border-b border-gray-200 text-sm">{item.added_by}</td>
                   <td className="py-3 px-4 border-b border-gray-200 text-sm">{item.quantity}</td>
                   
                   <td className="py-3 px-4 border-b border-gray-200 text-sm">{item.buying_price}</td>

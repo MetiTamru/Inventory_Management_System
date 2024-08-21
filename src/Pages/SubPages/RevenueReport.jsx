@@ -1,80 +1,60 @@
 import React, { useState, useEffect } from 'react';
-import { FaTrash } from 'react-icons/fa';
 import axiosInstance from '../../Components/Axios';
 import Modal from 'react-modal';
+import { FaTrash } from 'react-icons/fa';
 import * as XLSX from 'xlsx';
 
 Modal.setAppElement('#root');
 
-const ViewSales = () => {
-  const [sales, setSales] = useState([]);
+const RevenueReport = () => {
+  const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedSaleId, setSelectedSaleId] = useState(null);
-  const [categories, setCategories] = useState([]);
-  const [subCategories, setSubCategories] = useState([]);
+  const [selectedExpenseId, setSelectedExpenseId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [successMessage, setSuccessMessage] = useState('');
-  const [itemsPerPage] = useState(10); 
+  const [itemsPerPage] = useState(10);
   const [search, setSearch] = useState('');
-  const [sortBy, setSortBy] = useState('id'); 
+  const [sortBy, setSortBy] = useState('id');
   const [sortOrder, setSortOrder] = useState('desc'); 
-  
+
   useEffect(() => {
-    const fetchSales = async () => {
+    const fetchExpenses = async () => {
       try {
-        const response = await axiosInstance.get('/api/sales/');
-        const [categoriesResponse, subCategoriesResponse] = await Promise.all([
-          axiosInstance.get('/api/categories/'),
-          axiosInstance.get('/api/subcategories/')
-        ]);
-        setCategories(categoriesResponse.data);
-        setSubCategories(subCategoriesResponse.data);
-        setSales(response.data.sort((a, b) => {
-          if (sortOrder === 'asc') {
-            return a[sortBy] > b[sortBy] ? 1 : -1;
-          } else {
-            return a[sortBy] < b[sortBy] ? 1 : -1;
-          }
-        }));
+        const response = await axiosInstance.get('/api/revenue/');
+        setExpenses(response.data.sort((a, b) => b.id - a.id)); 
         setLoading(false);
       } catch (err) {
-        setError('Failed to fetch sales.');
+        setError('Failed to fetch expenses.');
         setLoading(false);
       }
     };
 
-    fetchSales();
-  }, [sortBy, sortOrder]); 
+    fetchExpenses();
+  }, []);
 
-  const openModal = (saleId) => {
-    setSelectedSaleId(saleId);
+  const openModal = (expenseId) => {
+    setSelectedExpenseId(expenseId);
     setModalIsOpen(true);
   };
 
   const closeModal = () => {
-    setSelectedSaleId(null);
+    setSelectedExpenseId(null);
     setModalIsOpen(false);
   };
 
   const handleDelete = async () => {
-    if (selectedSaleId) {
+    if (selectedExpenseId) {
       try {
-        const response = await axiosInstance.delete(`/api/sales/${selectedSaleId}/`);
+        const response = await axiosInstance.delete(`/api/expenses/${selectedExpenseId}/`);
         console.log('Deleted successfully:', response.data);
-        setSales(prevSales => 
-          prevSales
-            .filter(sale => sale.id !== selectedSaleId)
-            .sort((a, b) => {
-              if (sortOrder === 'asc') {
-                return a[sortBy] > b[sortBy] ? 1 : -1;
-              } else {
-                return a[sortBy] < b[sortBy] ? 1 : -1;
-              }
-            })
+        setExpenses((prevExpenses) =>
+          prevExpenses
+            .filter((expense) => expense.id !== selectedExpenseId)
+            .sort((a, b) => b.id - a.id)
         );
-        setSuccessMessage('Sale deleted successfully.');
+        setSuccessMessage('Expense deleted successfully.');
         setTimeout(() => setSuccessMessage(''), 3000);
         closeModal();
       } catch (error) {
@@ -82,6 +62,8 @@ const ViewSales = () => {
       }
     }
   };
+ 
+  
   const exportToExcel = (data, fileName) => {
     if (!data || data.length === 0) {
       console.error("No data available to export");
@@ -95,25 +77,27 @@ const ViewSales = () => {
   };
 
   const handleExport = () => {
-    if (sales && sales.length > 0) {
-      exportToExcel(sales, 'Sales Data');
+    if (expenses && expenses.length > 0) {
+      exportToExcel(expenses, 'Expense Data');
     } else {
-      console.error("No Sales available to export");
+      console.error("No expenses available to export");
     }
   };
+
+  
   const handleSearch = (e) => {
     setSearch(e.target.value);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
   const handleSort = (field) => {
-    const newSortOrder = sortBy === field && sortOrder === 'desc' ? 'asc' : 'desc';
+    const newSortOrder = sortBy === field && sortOrder === 'asc' ? 'desc' : 'asc';
     setSortBy(field);
     setSortOrder(newSortOrder);
   };
 
-  const filteredSales = sales
-    .filter(sale => sale.item_name.toLowerCase().includes(search.toLowerCase()))
+  const filteredExpenses = expenses
+    .filter((expense) => expense.name.toLowerCase().includes(search.toLowerCase()))
     .sort((a, b) => {
       if (sortOrder === 'asc') {
         return a[sortBy] > b[sortBy] ? 1 : -1;
@@ -121,20 +105,39 @@ const ViewSales = () => {
         return a[sortBy] < b[sortBy] ? 1 : -1;
       }
     });
+    const handleVerify = async (expenseId) => {
+      try {
+        
+        await axiosInstance.patch(`/api/revenue/${expenseId}/`, { is_verified: true });
+    
+        
+        setExpenses((prevExpenses) =>
+          prevExpenses.map((expense) =>
+            expense.id === expenseId ? { ...expense, is_verified: true } : expense
+          )
+        );
+        
+        setSuccessMessage('Revenue verified successfully.');
+        setTimeout(() => setSuccessMessage(''), 3000);
+      } catch (error) {
+        console.error('Verification failed:', error.response?.data || error.message);
+      }
+    };
+
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentSales = filteredSales.slice(indexOfFirstItem, indexOfLastItem);
+  const currentExpenses = filteredExpenses.slice(indexOfFirstItem, indexOfLastItem);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(sales.length / itemsPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(expenses.length / itemsPerPage); i++) {
     pageNumbers.push(i);
   }
 
   return (
     <div className="h-full w-full flex flex-col gap-6 bg-gray-100 p-4 md:p-8">
       <div className='bg-white flex flex-col md:flex-row md:justify-between items-center p-3 md:mt-16 mt-16'>
-        <h1 className="text-2xl  mb-5 font-bold">Sales Record</h1>
+        <h1 className="text-2xl mb-5 font-bold">Revenue Management</h1>
         
         <input
           type="text"
@@ -144,7 +147,8 @@ const ViewSales = () => {
           className="px-4 py-2 border rounded-lg w-full md:w-1/3 mb-4 md:mb-0"
         />
         <div className='flex flex-row gap-4'>
-          <button className="btn-secondary border border-purple-700 px-4 py-2 rounded-lg text-black md:ml-4" onClick={handleExport}>
+          
+          <button className="btn-secondary border border-purple-700 px-4 py-2 rounded-lg text-black md:ml-4"  onClick={handleExport}>
             Export to Excel
           </button>
         </div>
@@ -166,91 +170,64 @@ const ViewSales = () => {
                 </th>
                 <th 
                   className="py-3 px-4 border-b border-gray-200 text-center text-sm font-semibold cursor-pointer"
+                 
                 >
-                  Item Name 
+                 Submitter's Name 
+                </th>
+
+                <th className="py-3 px-4 border-b border-gray-200 text-center text-sm font-semibold">Reciever Name</th>
+                <th 
+                  className="py-3 px-4 border-b border-gray-200 text-center text-sm font-semibold cursor-pointer"
+                  
+                >
+                  Amount 
                 </th>
                 <th 
                   className="py-3 px-4 border-b border-gray-200 text-center text-sm font-semibold cursor-pointer"
-                >
-                  Category 
-                </th>
-                <th 
-                  className="py-3 px-4 border-b border-gray-200 text-center text-sm font-semibold cursor-pointer"
-                >
-                  Subcategory
-                </th>
-                <th 
-                  className="py-3 px-4 border-b border-gray-200 text-center text-sm font-semibold cursor-pointer"
-                >
-                  Quantity
-                </th>
-                <th 
-                  className="py-3 px-4 border-b border-gray-200 text-center text-sm font-semibold cursor-pointer"
-                >
-                  Seller Name
-                </th>
-                <th 
-                  className="py-3 px-4 border-b border-gray-200 text-center text-sm font-semibold cursor-pointer"
+                 
                 >
                   Date
                 </th>
                 <th 
                   className="py-3 px-4 border-b border-gray-200 text-center text-sm font-semibold cursor-pointer"
+                 
                 >
-                  Payment Mthod
-                </th>
-                <th 
-                  className="py-3 px-4 border-b border-gray-200 text-center text-sm font-semibold cursor-pointer"
-                >
-                 Commision Amount
-                </th>
-               
-                <th 
-                  className="py-3 px-4 border-b border-gray-200 text-center text-sm font-semibold cursor-pointer"
-                >
-                  Selling Price 
-                </th>
-                <th 
-                  className="py-3 px-4 border-b border-gray-200 text-center text-sm font-semibold cursor-pointer"
-                >
-                  Profit
+                 Submited Via
                 </th>
                 
-                <th className="py-3 px-4 border-b border-gray-200 text-left text-sm font-semibold">Actions</th>
+                <th className="py-3 px-4 border-b border-gray-200 text-center text-sm font-semibold">Verify</th>
+                
               </tr>
             </thead>
             <tbody>
-              {currentSales.map(sale => {
-                const mainCategory = categories.find(cat => cat.id === sale.main_category)?.name || 'Unknown';
-                const subCategory = subCategories.find(sub => sub.id === sale.sub_category)?.name || 'Unknown';
-
-                return (                  <tr key={sale.id} className="hover:bg-gray-50">
-                    <td className="py-3 px-4 border-b border-gray-200 text-sm">{sale.id}</td>
-                    <td className="py-3 px-4 border-b border-gray-200 text-sm">{sale.item_name}</td>
-                    <td className="py-3 px-4 border-b border-gray-200 text-sm">{mainCategory}</td>
-                    <td className="py-3 px-4 border-b border-gray-200 text-sm">{subCategory}</td>
-                    <td className="py-3 px-4 border-b border-gray-200 text-sm">{sale.quantity}</td>
-                    <td className="py-3 px-4 border-b border-gray-200 text-sm">{sale.seller_name}</td>
-                    <td className="py-3 px-4 border-b border-gray-200 text-sm">{sale.date}</td> 
-                    <td className="py-3 px-4 border-b border-gray-200 text-sm">{sale.payment_method}</td> 
-                    <td className="py-3 px-4 border-b border-gray-200 text-sm">{sale. commission_amount}</td> 
-                   
-                    <td className="py-3 px-4 border-b border-gray-200 text-sm">{sale.selling_price}</td>
-                    <td className="py-3 px-4 border-b border-gray-200 text-sm">{sale.profit}</td>
-                    <td className="py-3 px-4 border-b border-gray-200 text-sm">
-                      <div className="flex space-x-2">
-                        
-                        <button 
-                          className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600" 
-                          onClick={() => openModal(sale.id)}
-                        >
-                          <FaTrash />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+              {currentExpenses.map(expense => (
+                <tr key={expense.id} className="hover:bg-gray-50">
+                  <td className="py-3 px-4 border-b border-gray-200 text-sm">{expense.id}</td>
+                  <td className="py-3 px-4 border-b border-gray-200 text-sm">{expense.name}</td>
+                  <td className="py-3 px-4 border-b border-gray-200 text-sm">{expense.recievername}</td>
+                  <td className="py-3 px-4 border-b border-gray-200 text-sm">{expense.amount}</td>
+                  <td className="py-3 px-4 border-b border-gray-200 text-sm">{expense.date}</td>
+                  <td className="py-3 px-4 border-b border-gray-200 text-sm">{expense.description}</td>
+                 
+                  
+                  <td className="py-3 px-4 border-b border-gray-200 text-sm">
+                  {expense.is_verified ? (
+                    <button className="bg-green-500 text-white px-2 py-1 rounded-md" disabled>
+                      Verified
+                    </button>
+                  ) : (
+                    <button
+                      className="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600"
+                      onClick={() => handleVerify(expense.id)}
+                    >
+                      Verify
+                    </button>
+                  )}
+                  </td>
+                 
+                    
+                </tr>
+              ))}
             </tbody>
           </table>
           <div className="flex justify-center mt-4">
@@ -292,7 +269,7 @@ const ViewSales = () => {
         }}
       >
         <h2 className="text-lg font-semibold mb-4">Confirm Deletion</h2>
-        <p className="mb-4">Are you sure you want to delete this cashier?</p>
+        <p className="mb-4">Are you sure you want to delete this expense?</p>
         <div className="flex justify-end space-x-2">
           <button 
             onClick={closeModal} 
@@ -312,4 +289,5 @@ const ViewSales = () => {
   );
 };
 
-export default ViewSales;
+export default RevenueReport;
+

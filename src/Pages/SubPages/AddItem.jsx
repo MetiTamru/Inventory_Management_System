@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../Components/Axios';
-
+import { useAuth } from '../../Components/AuthContext';
 function AddItem() {
+
+  const {user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [categories, setCategories] = useState([]);
@@ -27,6 +29,7 @@ function AddItem() {
     sub_category: "",
     quantity: 1,
     buying_price: "",
+    added_by: user.name,
     
   });
 
@@ -147,6 +150,7 @@ function AddItem() {
           buying_price: items.buying_price,
           main_category: parseInt(items.main_category),
           sub_category: parseInt(items.sub_category),
+          added_by:user.name,
         });
 
         
@@ -159,6 +163,7 @@ function AddItem() {
           buying_price: items.buying_price,
           main_category: parseInt(items.main_category),
           sub_category: parseInt(items.sub_category),
+          added_by:user.name,
         });
 
         
@@ -286,7 +291,10 @@ function AddItem() {
                         {errors.buying_price && <p className="text-red-500 text-sm">Buying price must be greater than 0.</p>}
 
             </div>
-
+            <div className="mb-4">
+            <label className="block text-gray-700 text-left font-medium mb-2">Added By</label>
+            <p className="border p-2 font-bold rounded">{user.name}</p>
+          </div>
             
           </div>
         </div>

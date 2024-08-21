@@ -6,7 +6,7 @@ import * as XLSX from 'xlsx';
 
 Modal.setAppElement('#root');
 
-const ViewSales = () => {
+const ExchangeReport = () => {
   const [sales, setSales] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -14,6 +14,7 @@ const ViewSales = () => {
   const [selectedSaleId, setSelectedSaleId] = useState(null);
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
+  const [newItemsubCategories, setNewItemSubCategories] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [successMessage, setSuccessMessage] = useState('');
   const [itemsPerPage] = useState(10); 
@@ -24,13 +25,14 @@ const ViewSales = () => {
   useEffect(() => {
     const fetchSales = async () => {
       try {
-        const response = await axiosInstance.get('/api/sales/');
+        const response = await axiosInstance.get('/api/exchange/');
         const [categoriesResponse, subCategoriesResponse] = await Promise.all([
           axiosInstance.get('/api/categories/'),
           axiosInstance.get('/api/subcategories/')
         ]);
         setCategories(categoriesResponse.data);
         setSubCategories(subCategoriesResponse.data);
+        setNewItemSubCategories(subCategoriesResponse.data)
         setSales(response.data.sort((a, b) => {
           if (sortOrder === 'asc') {
             return a[sortBy] > b[sortBy] ? 1 : -1;
@@ -61,7 +63,7 @@ const ViewSales = () => {
   const handleDelete = async () => {
     if (selectedSaleId) {
       try {
-        const response = await axiosInstance.delete(`/api/sales/${selectedSaleId}/`);
+        const response = await axiosInstance.delete(`/api/exchange/${selectedSaleId}/`);
         console.log('Deleted successfully:', response.data);
         setSales(prevSales => 
           prevSales
@@ -96,9 +98,9 @@ const ViewSales = () => {
 
   const handleExport = () => {
     if (sales && sales.length > 0) {
-      exportToExcel(sales, 'Sales Data');
+      exportToExcel(sales, 'Exchange Data');
     } else {
-      console.error("No Sales available to export");
+      console.error("No Exchange available to export");
     }
   };
   const handleSearch = (e) => {
@@ -134,7 +136,7 @@ const ViewSales = () => {
   return (
     <div className="h-full w-full flex flex-col gap-6 bg-gray-100 p-4 md:p-8">
       <div className='bg-white flex flex-col md:flex-row md:justify-between items-center p-3 md:mt-16 mt-16'>
-        <h1 className="text-2xl  mb-5 font-bold">Sales Record</h1>
+        <h1 className="text-2xl  mb-5 font-bold">Exchange Record</h1>
         
         <input
           type="text"
@@ -182,6 +184,18 @@ const ViewSales = () => {
                 <th 
                   className="py-3 px-4 border-b border-gray-200 text-center text-sm font-semibold cursor-pointer"
                 >
+                  Exchaneged Item
+                </th>
+              
+                <th 
+                  className="py-3 px-4 border-b border-gray-200 text-center text-sm font-semibold cursor-pointer"
+                >
+                  Exchaneged Item Category
+                </th>
+               
+                <th 
+                  className="py-3 px-4 border-b border-gray-200 text-center text-sm font-semibold cursor-pointer"
+                >
                   Quantity
                 </th>
                 <th 
@@ -197,18 +211,22 @@ const ViewSales = () => {
                 <th 
                   className="py-3 px-4 border-b border-gray-200 text-center text-sm font-semibold cursor-pointer"
                 >
-                  Payment Mthod
+                  Payment Method
+                </th>
+                <th 
+                  className="py-3 px-4 border-b border-gray-200 text-center text-sm font-semibold cursor-pointer"
+                >
+                  Estimated Exchange Price
+                </th>
+                <th 
+                  className="py-3 px-4 border-b border-gray-200 text-center text-sm font-semibold cursor-pointer"
+                >
+                  Additional Price
                 </th>
                 <th 
                   className="py-3 px-4 border-b border-gray-200 text-center text-sm font-semibold cursor-pointer"
                 >
                  Commision Amount
-                </th>
-               
-                <th 
-                  className="py-3 px-4 border-b border-gray-200 text-center text-sm font-semibold cursor-pointer"
-                >
-                  Selling Price 
                 </th>
                 <th 
                   className="py-3 px-4 border-b border-gray-200 text-center text-sm font-semibold cursor-pointer"
@@ -223,19 +241,25 @@ const ViewSales = () => {
               {currentSales.map(sale => {
                 const mainCategory = categories.find(cat => cat.id === sale.main_category)?.name || 'Unknown';
                 const subCategory = subCategories.find(sub => sub.id === sale.sub_category)?.name || 'Unknown';
+                const newItemCategory = newItemsubCategories.find(sub => sub.id === sale.new_item_sub_category)?.name || 'Unknown';
 
-                return (                  <tr key={sale.id} className="hover:bg-gray-50">
+                return (                 
+                   <tr key={sale.id} className="hover:bg-gray-50">
                     <td className="py-3 px-4 border-b border-gray-200 text-sm">{sale.id}</td>
                     <td className="py-3 px-4 border-b border-gray-200 text-sm">{sale.item_name}</td>
                     <td className="py-3 px-4 border-b border-gray-200 text-sm">{mainCategory}</td>
                     <td className="py-3 px-4 border-b border-gray-200 text-sm">{subCategory}</td>
+                    
+                    <td className="py-3 px-4 border-b border-gray-200 text-sm">{sale.new_item_name}</td>
+                    <td className="py-3 px-4 border-b border-gray-200 text-sm">{newItemCategory}</td>
                     <td className="py-3 px-4 border-b border-gray-200 text-sm">{sale.quantity}</td>
                     <td className="py-3 px-4 border-b border-gray-200 text-sm">{sale.seller_name}</td>
-                    <td className="py-3 px-4 border-b border-gray-200 text-sm">{sale.date}</td> 
-                    <td className="py-3 px-4 border-b border-gray-200 text-sm">{sale.payment_method}</td> 
-                    <td className="py-3 px-4 border-b border-gray-200 text-sm">{sale. commission_amount}</td> 
-                   
-                    <td className="py-3 px-4 border-b border-gray-200 text-sm">{sale.selling_price}</td>
+                    <td className="py-3 px-4 border-b border-gray-200 text-sm">{sale.date}</td>
+                    <td className="py-3 px-4 border-b border-gray-200 text-sm">{sale.payment_method}</td>
+                    <td className="py-3 px-4 border-b border-gray-200 text-sm">{sale.estimated_exchange_price}</td>
+
+                    <td className="py-3 px-4 border-b border-gray-200 text-sm">{sale.additional_payment}</td>
+                    <td className="py-3 px-4 border-b border-gray-200 text-sm">{sale.commission_amount}</td>
                     <td className="py-3 px-4 border-b border-gray-200 text-sm">{sale.profit}</td>
                     <td className="py-3 px-4 border-b border-gray-200 text-sm">
                       <div className="flex space-x-2">
@@ -312,4 +336,5 @@ const ViewSales = () => {
   );
 };
 
-export default ViewSales;
+export default ExchangeReport;
+

@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axiosInstance from '../Components/Axios';
-
+import { useAuth } from '../Components/AuthContext';
 const SellItem = () => {
+
+  const { user } = useAuth();
+
+
   const { id } = useParams();
   const navigate = useNavigate();
   const [item, setItem] = useState(null);
@@ -16,8 +20,10 @@ const SellItem = () => {
   const [categories, setCategories] = useState([]);
   const [subCategories, setSubCategories] = useState([]);
   const [sellingPrice, setSellingPrice] = useState("");
+  const [payment_method, setPayment_method] = useState("");
+  const [commission_amount, setCommission_amount] = useState("");
 
-
+  setPayment_method
   const today = new Date().toISOString().split('T')[0];
 
   const fetchSummaries = async () => {
@@ -94,9 +100,11 @@ useEffect(() => {
         sub_category: item.sub_category,
         quantity,
         date,
+        commission_amount,
+        payment_method,
         selling_price:selling_price * quantity, 
-        seller_name: sellerName,
-        profit: (selling_price - item.buying_price) * quantity,
+        seller_name: user.name,
+        profit: ((selling_price - item.buying_price ) * quantity)-commission_amount,
       }
 
     try {
@@ -177,6 +185,34 @@ useEffect(() => {
             />
           </div>
           <div className="mb-4">
+            <label className="block text-gray-700 text-left font-medium mb-2">Commision Amount</label>
+            <input
+              type="number"
+              value={commission_amount}
+              onChange={(e) => setCommission_amount(e.target.value)}
+              min="0"
+              className="border p-2 rounded w-full"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-left font-medium mb-2">Payment Method</label>
+          <div className="select-container">
+          <select
+            value={payment_method}
+            onChange={(e) => setPayment_method(e.target.value)}
+            className="border p-2 rounded w-full h-auto"
+            required
+          >
+            <option value="" disabled>Select Seller</option>
+            <option value="cash" >Cash</option>
+            <option value="transfer" >Transfer</option>
+            <option value="debt" >Debt</option>
+          </select>
+        </div>
+          </div>
+         
+          <div className="mb-4">
           <label className="block text-gray-700 text-left font-medium mb-2">Date</label>
           <input
             type="date"
@@ -189,19 +225,7 @@ useEffect(() => {
         </div>
           <div className="mb-4">
             <label className="block text-gray-700 text-left font-medium mb-2">Seller Name</label>
-          <div className="select-container">
-          <select
-            value={sellerName}
-            onChange={(e) => setSellerName(e.target.value)}
-            className="border p-2 rounded w-full h-auto"
-            required
-          >
-            <option value="" disabled>Select Seller</option>
-            {sellers.map(seller => (
-              <option key={seller.id} value={seller.name}>{seller.name}</option>
-            ))}
-          </select>
-        </div>
+            <p className="border p-2 font-bold rounded">{user.name}</p>
           </div>
           
           <button

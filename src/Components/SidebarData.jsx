@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTachometerAlt,faTruck,  faChartBar, faCogs, faChartLine, faCreditCard,  faListAlt, faBoxes, faReceipt, faCashRegister, faBoxOpen, faCubes, faFileInvoice, faUserTie, faCalendarAlt, faUndo, faChartPie, faAreaChart, faUsersCog, faBell, faExclamationTriangle, faEnvelopeOpenText, faUserFriends, faGift, faCog, faExchangeAlt, faUserPlus, faSearch, faMoneyBill1Wave, faFileInvoiceDollar, faFolderPlus, faFolder, faShoppingCart} from "@fortawesome/free-solid-svg-icons";
+import { faTachometerAlt,faTruck,  faChartBar, faCogs, faChartLine, faCreditCard,  faListAlt, faBoxes, faReceipt, faCashRegister, faBoxOpen, faCubes, faFileInvoice, faUserTie, faCalendarAlt, faUndo, faChartPie, faAreaChart, faUsersCog, faBell, faExclamationTriangle, faEnvelopeOpenText, faUserFriends, faGift, faCog, faExchangeAlt, faUserPlus, faSearch, faMoneyBill1Wave, faFileInvoiceDollar, faFolderPlus, faFolder, faShoppingCart, faExchange, faUser, faDollyFlatbed} from "@fortawesome/free-solid-svg-icons";
 
 
 export const SidebarData = [
@@ -92,8 +92,26 @@ export const SidebarData = [
         roles: ["admin"],
       },]
   },
- 
-
+  {
+    title: 'Exchange Report',
+        path: '/exchange/report',
+        icon: <FontAwesomeIcon icon={faExchange} />,
+        roles: ["admin"],
+    
+  },
+  {
+        title: 'Submit Revenue',
+        path: '/submit-revenue',
+        icon: <FontAwesomeIcon icon={faDollyFlatbed} />,
+        roles: ["admin",'cashier'],
+       
+  },
+{
+           title: 'Revenue Report',
+            path: '/revenue-report',
+            icon: <FontAwesomeIcon icon={faReceipt }  />, 
+            roles: ["admin"],
+},
  
   {
     title: 'Cashier Management',

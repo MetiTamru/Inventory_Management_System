@@ -149,7 +149,7 @@ const Sale = () => {
                     <td className="py-3 px-4 border-b border-gray-200 text-sm">{subCategory}</td>
                     <td className="py-3 px-4 border-b border-gray-200 text-sm">{item.quantity}</td>
                     <td className="py-3 px-4 border-b border-gray-200 text-sm">{item.buying_price}</td>
-                    <td className="py-3 px-4 border-b border-gray-200 text-sm">
+                    <td className="py-3 px-4 border-b border-gray-200 text-sm flex gap-2">
                       <div className="flex space-x-2">
                         <Link to={`/sell-item/${item.id}`}>                        <button class="bg-green-500 text-white font-bold py-1 px-4 rounded hover:bg-green-600 transition duration-300 ease-in-out" >
                       <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -161,6 +161,17 @@ const Sale = () => {
                    
 
                     </div>
+                    <div className="flex space-x-2">
+                      <Link to={`/exchange/${item.id}`}>
+                          <button className="bg-blue-500 text-white font-bold py-1 px-2 rounded hover:bg-blue-600 transition duration-300 ease-in-out">
+                              <svg className="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v6h6M20 20v-6h-6M4 10l16-6M20 14l-16 6" />
+                              </svg>
+                              Exchange
+                          </button>
+                      </Link>
+                  </div>
+
                   </td>
                 </tr>
               );

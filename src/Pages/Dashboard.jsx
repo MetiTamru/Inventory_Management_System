@@ -7,7 +7,7 @@ import sale from "../assets/sale.png";
 import { ToastContainer, toast } from 'react-toastify';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {  faCartShopping, faCircle, faDollarSign, faHistory, faMinus, faTruck } from '@fortawesome/free-solid-svg-icons';
+import {  faArrowCircleLeft, faArrowCircleRight, faCartShopping, faCircle, faDollarSign, faHistory, faMinus, faPiggyBank, faTruck } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {useAuth } from "../Components/AuthContext"
@@ -49,7 +49,10 @@ function Dashboard() {
   const [totalExpenseThisWeek, setTotalExpenseThisWeek] = useState([]);
   const [totalExpenseThisMonth, setTotalExpenseThisMonth] = useState([]);
   const [totalExpense, setTotalExpense] = useState([]);
-  const [formattedDate, setFormattedDate] = useState('');
+  const [totalExchangeProfit, setTotalExchangeProfit] = useState('');
+  const [totalExchangeSale, setTotalExchangeSale] = useState(0);
+
+  const [formattedDate, setFormattedDate] = useState(0);
   
   const [totalTransaction, setTotalTransaction] = useState(0);
   const [totalProductQuantity, setTotalProductQuantity] = useState(0);
@@ -57,7 +60,22 @@ function Dashboard() {
   const [totalBuyingToday, setTotalBuyingToday] = useState(0);
   const [buyingData, setBuyingData] = useState([]);
   const [totalSalesAmountToday, setTotalSalesAmountToday] = useState(0);
-  setTotalSalesAmountToday
+  const [exchangeData, setExchangeData] = useState([]);
+  const [todayExchangeAmount, setTodayExchangeAmount] = useState([]);
+  
+  const [totalExchangeProfitToday, setTotalExchangeProfitToday] = useState(0);
+  const [totalExchangeSaleToday, setTotalExchangeSaleToday] = useState(0);
+  const [totalExchangeSaleThisWeek, setTotalExchangeSaleThisWeek] = useState(0);
+  const [totalExchangeSaleThisMonth, setTotalExchangeSaleThisMonth] = useState(0);
+  
+  const [totalExchangeProfitThisWeek, setTotalExchangeProfitThisWeek] = useState(0);
+  const [revenueData, setRevenue] = useState([]);
+  const [totalExchangeProfitThisMonth, setTotalExchangeProfitThisMonth] = useState(0);
+  const [totalRevenueToday, setTotalRevenueToday] = useState(0);
+  const [totalRevenueThisWeek, setTotalRevenueThisWeek] = useState(0);
+  const [totalRevenueThisMonth, setTotalRevenueThisMonth] = useState(0);
+  const [totalRevenue, setTotalRevenue] = useState(0);
+  
   const handleTotalTransactionUpdate = (newTotalTransaction) => {
     setTotalTransaction(newTotalTransaction);
   };
@@ -73,10 +91,10 @@ function Dashboard() {
 const fetchExpense = async () => {
     try {
       const Expenseresponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}api/expenses/`);
-
-      
       const ExpenseData = await Expenseresponse.json();
+
       setExpenseData(ExpenseData);
+
       const totalExpense = ExpenseData.reduce((acc, item) => acc + parseFloat(item.amount), 0);
       setTotalExpense(totalExpense)
     } catch (error) {
@@ -96,14 +114,36 @@ const fetchExpense = async () => {
       console.error('Error fetching data:', error);
     }
   };
+  const fetchRevenue = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}api/revenue/`);
+      
+      const data = await response.json();
 
-
+      setRevenue(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+ 
   const fetchBuying = async () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}api/electronics/`);
 
       const data = await response.json();
       setBuyingData(data);
+    } catch (error) {
+      console.error('Error fetching buying data:', error);
+    }
+  };
+
+  const fetchExchange = async () => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}api/exchange/`);
+      const data = await response.json();
+      setExchangeData(data);
+      
+      
     } catch (error) {
       console.error('Error fetching buying data:', error);
     }
@@ -152,9 +192,15 @@ const fetchExpense = async () => {
 
   
   const displayData = () => {
+
     const todayFiltered = data.filter((item) => isToday(item.date));
     const weekFiltered = data.filter((item) => isThisWeek(item.date));
     const monthFiltered = data.filter((item) => isThisMonth(item.date));
+    const totalExchangeProfit = exchangeData.reduce((acc, item) => acc + parseFloat(item.profit), 0);
+      const totalExchangeSale = exchangeData.reduce((acc, item) => acc +( parseFloat(item.estimated_exchange_price)+ parseFloat(item.additional_payment)), 0);
+      setTotalExchangeProfit(totalExchangeProfit)
+      setTotalExchangeSale(totalExchangeSale)
+     
     const totalProfitToday = todayFiltered.reduce((acc, item) => acc + parseFloat(item.profit), 0);
     const totalProfitThisWeek = weekFiltered.reduce((acc, item) => acc + parseFloat(item.profit), 0);
     const totalProfitThisMonth = monthFiltered.reduce((acc, item) => acc + parseFloat(item.profit), 0);
@@ -162,16 +208,61 @@ const fetchExpense = async () => {
     const totalSalesAmountToday = todayFiltered.reduce((acc, item) => acc + parseFloat(item.quantity), 0);
     const totalSalesThisWeek = weekFiltered.reduce((acc, item) => acc + parseFloat(item.selling_price), 0);
     const totalSalesThisMonth = monthFiltered.reduce((acc, item) => acc + parseFloat(item.selling_price), 0);
-
+    
     const todayFilteredExpense = ExpenseData.filter((item) => isToday(item.date));
     const weekFilteredExpense = ExpenseData.filter((item) => isThisWeek(item.date));
     const monthFilteredExpense = ExpenseData.filter((item) => isThisMonth(item.date));
+
     const totalExpenseToday = todayFilteredExpense.reduce((acc, item) => acc + parseFloat(item.amount), 0);
     const totalExpenseThisWeek = weekFilteredExpense.reduce((acc, item) => acc + parseFloat(item.amount), 0);
     const totalExpenseThisMonth = monthFilteredExpense.reduce((acc, item) => acc + parseFloat(item.amount), 0);
+
+    const todayFilteredRevenue = revenueData.filter((item) => isToday(item.date));
+    const weekFilteredRevenue = revenueData.filter((item) => isThisWeek(item.date));
+    const monthFilteredRevenue = revenueData.filter((item) => isThisMonth(item.date));
+
+
+
+
+    const totalRevenueToday = todayFilteredRevenue.reduce((acc, item) => acc + parseFloat(item.amount), 0);
+    const totalRevenueThisWeek = weekFilteredRevenue.reduce((acc, item) => acc + parseFloat(item.amount), 0);
+    const totalRevenueThisMonth = monthFilteredRevenue.reduce((acc, item) => acc + parseFloat(item.amount), 0);
+    const totalRevenue = revenueData.reduce((acc, item) => acc + parseFloat(item.amount), 0);
+
+
     const todayFilteredBuying = buyingData.filter((item) => isToday(item.date_added));
+    const todayExchangeData = exchangeData.filter((item) => isToday(item.date));
+    const weekExchangeData = exchangeData.filter((item) => isThisWeek(item.date));
+    const monthExchangeData = exchangeData.filter((item) => isThisMonth(item.date));
+
+
+    const totalExchangeProfitToday = todayExchangeData.reduce((acc, item) => acc + parseFloat(item.profit), 0);
+    const totalExchangeProfitThisWeek = weekExchangeData.reduce((acc, item) => acc + parseFloat(item.profit), 0);
+    const totalExchangeProfitThisMonth = monthExchangeData.reduce((acc, item) => acc + parseFloat(item.profit), 0);
+
+    const totalExchangeSaleToday = todayExchangeData.reduce((acc, item) => acc +( parseFloat(item.estimated_exchange_price)+ parseFloat(item.additional_payment)), 0);
+    const totalExchangeSaleThisWeek = weekExchangeData.reduce((acc, item) => acc + ( parseFloat(item.estimated_exchange_price)+ parseFloat(item.additional_payment)), 0);
+    const totalExchangeSaleThisMonth = monthExchangeData.reduce((acc, item) => acc + ( parseFloat(item.estimated_exchange_price)+ parseFloat(item.additional_payment)), 0);
+
+
     const totalBuyingToday = todayFilteredBuying.reduce((acc, item) => acc + parseFloat(item.buying_price), 0);
     const totalTransaction = todayFiltered.length + todayFilteredExpense.length +  todayFilteredBuying.length
+
+
+     setTotalExchangeProfitToday(totalExchangeProfitToday)
+     setTotalExchangeProfitThisWeek(totalExchangeProfitThisWeek)
+     setTotalExchangeProfitThisMonth(totalExchangeProfitThisMonth)
+
+
+
+     setTotalRevenueToday(totalRevenueToday)
+     setTotalRevenueThisWeek(totalRevenueThisWeek)
+     setTotalRevenueThisMonth(totalRevenueThisMonth)
+     setTotalRevenue(totalRevenue)
+
+     setTotalExchangeSaleToday(totalExchangeSaleToday)
+     setTotalExchangeSaleThisWeek(totalExchangeSaleThisWeek)
+     setTotalExchangeSaleThisMonth(totalExchangeSaleThisMonth)
 
     setTotalBuyingToday(todayFilteredBuying);
     setTransaction(totalTransaction)
@@ -195,37 +286,31 @@ const fetchExpense = async () => {
     setTotalSalesToday(totalSalesToday);
     setTotalSalesThisWeek(totalSalesThisWeek);
     setTotalSalesThisMonth(totalSalesThisMonth);
-
+    setTodayExchangeAmount(todayExchangeData.length)
    
   };
+
+
   useEffect(() => {
-    fetchBuying();
+    const fetchAllData = async () => {
+      await Promise.all([
+        fetchExchange(),
+        fetchBuying(),
+        fetchExpense(),
+        fetchData(),
+        fetchRevenue(),
+      ]);
+    };
+
+    fetchAllData();
   }, []);
 
   useEffect(() => {
-    if (buyingData.length > 0) {
+    if (exchangeData.length > 0 || buyingData.length > 0 || ExpenseData.length > 0 || data.length > 0|| revenueData.length > 0) {
       displayData();
     }
-  }, [ExpenseData]);
-  useEffect(() => {
-    fetchExpense();
-  }, []);
+  }, [exchangeData, buyingData, ExpenseData, data,revenueData]);
 
-  useEffect(() => {
-    if (ExpenseData.length > 0) {
-      displayData();
-    }
-  }, [ExpenseData]);
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    if (data.length > 0) {
-      displayData();
-    }
-  }, [data]);
 
   useEffect(() => {
     const ProductQuantity = async () => {
@@ -352,7 +437,7 @@ const fetchExpense = async () => {
          className="flex flex-row items-center justify-between p-4 bg-gray-100 rounded-lg"
        >
          <div className="text-start">
-           <p className="primary text-2xl font-bold">{totalSalesAmountToday}</p>
+           <p className="primary text-2xl font-bold">{totalSalesAmountToday + todayExchangeAmount }</p>
            <p className="text-sm">Today's Selling</p>
          </div>
          <div>
@@ -408,7 +493,7 @@ const fetchExpense = async () => {
          className="flex flex-row items-center justify-between p-4 bg-gray-100 rounded-lg"
        >
          <div className="text-start">
-           <p className="primary text-2xl font-bold">{totalSalesAmountToday}</p>
+           <p className="primary text-2xl font-bold">{totalSalesAmountToday + todayExchangeAmount}</p>
            <p className="text-sm">Todays Selling</p>
          </div>
          <div>
@@ -433,7 +518,7 @@ const fetchExpense = async () => {
          <div className="flex  md:flex-row  items-center text gap-4">
            <div>{cartIcon}<div className="nav-cart-count">{todayData.length}</div> </div>
            <div className=" ml-5 ">
-             <p className="text-2xl font-bold text-start text-gray-800">${totalSalesToday}</p>
+             <p className="text-2xl font-bold text-start text-gray-800">${((totalSalesToday + totalExchangeSaleToday )) }</p>
              <Link to={"/manage-items/sales-report/today"}>
              <p className="text-[#a46cc6] text-sm  mt-1">View Details</p>
              </Link>
@@ -450,13 +535,68 @@ const fetchExpense = async () => {
   <div className="flex  md:flex-row  items-center text gap-4">
     <div>{cartIcon}<div className="nav-cart-count">{todayData.length}</div> </div>
     <div className=" ml-5 ">
-      <p className="text-2xl font-bold text-start text-gray-800">${totalSalesToday}</p>
+      <p className="text-2xl font-bold text-start text-gray-800">${(totalSalesToday + totalExchangeSaleToday )}</p>
       
       
     </div>
   </div>
 </div>
 )}
+   
+ {/**Todays profite  */}
+ {user.role === 'admin' ? (
+  <div className="bg-white shadow-md rounded-sm p-10 w-full md:w-1/2 flex flex-col">
+  <div className="text-center mb-4">
+    <p className="text-xl text-start font-semibold text-gray-700"> Total Balance | <span className='text-sm text-gray-400'>Today</span></p>
+  </div>
+  <div className="flex  md:flex-row  items-center text gap-6">
+    
+    <div className='flex flex-row'><FontAwesomeIcon icon={faPiggyBank} size="2x"  /><FontAwesomeIcon icon={faDollarSign} className='font-bold'/> </div>
+    <div className=" ml-5 ">
+      <p className="text-2xl font-bold text-start text-gray-800">${((totalSalesToday + totalExchangeSaleToday )-totalExpenseToday) - totalRevenueToday}</p>
+      <Link to={"/expenses"}>
+      <p className="text-[#a46cc6] text-sm  mt-1">View Details</p>
+      </Link>
+    </div>
+  </div>
+</div>
+
+ ):(
+  <div className="bg-white shadow-md rounded-sm p-10 w-full md:w-1/2 flex flex-col">
+  <div className="text-center mb-4">
+    <p className="text-xl text-start font-semibold text-gray-700"> Total Balance | <span className='text-sm text-gray-400'>Today</span></p>
+  </div>
+  <div className="flex  md:flex-row  items-center text gap-6">
+    
+    <div className='flex flex-row'><FontAwesomeIcon icon={faPiggyBank} size="2x"  /> </div>
+    <div className=" ml-5 ">
+      <p className="text-2xl font-bold text-start text-gray-800">${((totalSalesToday + totalExchangeSaleToday )-totalExpenseToday) - totalRevenueToday}</p>
+      
+    </div>
+  </div>
+</div>
+ )}
+
+    </div>
+      <div className='flex flex-col md:flex-row gap-6'>
+      {/**Todays profit  */}
+      
+         <div className="bg-white shadow-md rounded-sm p-10 w-full md:w-1/2 flex flex-col">
+         <div className="text-center mb-4">
+           <p className="text-xl text-start font-semibold text-gray-700">Profit | <span className='text-sm text-gray-400'>Today</span></p>
+         </div>
+         <div className="flex  md:flex-row  items-center text gap-4">
+         <FontAwesomeIcon icon={faDollarSign} size="2x"  />
+           <div className=" ml-5 ">
+           <p className="text-2xl font-bold text-start text-gray-800">${((totalProfitToday + totalExchangeProfitToday) )}</p>
+             
+           </div>
+         </div>
+        
+       </div>
+  
+
+
    
  {/**Todays profite  */}
  {user.role === 'admin' ? (
@@ -485,7 +625,7 @@ const fetchExpense = async () => {
     
     <div className='flex flex-row'><FontAwesomeIcon icon={faDollarSign} size="2x"  /><FontAwesomeIcon icon={faMinus} className='font-bold'/> </div>
     <div className=" ml-5 ">
-      <p className="text-2xl font-bold text-start text-gray-800">${totalExpenseToday}</p>
+      <p className="text-2xl font-bold text-start text-gray-800">${(totalExpenseToday)}</p>
       
     </div>
   </div>
@@ -493,19 +633,21 @@ const fetchExpense = async () => {
  )}
 
     </div>
-    <div className="bg-white shadow-md rounded-sm p-10 w-full flex flex-col">
+        
+<div className="bg-white shadow-md rounded-sm p-10 w-full flex flex-col">
   <div className="text-center mb-4">
-    <p className="text-xl text-start font-semibold text-gray-700">Profits | <span className='text-sm text-gray-400'>Today</span></p>
+    <p className="text-xl text-start font-semibold text-gray-700">Total Balance | <span className='text-sm text-gray-400'>Weekly</span></p>
   </div>
   
   <div className="flex  md:flex-row  items-center text gap-4">
-  <FontAwesomeIcon icon={faDollarSign} size="2x"  />
+  <div className='flex flex-row'><FontAwesomeIcon icon={faPiggyBank} size="2x"  /><FontAwesomeIcon icon={faDollarSign} className='font-bold'/> </div>
     <div className=" ml-5 ">
-      <p className="text-2xl font-bold text-start text-gray-800">${totalProfitToday - totalExpenseToday}</p>
-      
+      <p className="text-2xl font-bold text-start text-gray-800">${(((totalSalesThisWeek + totalExchangeSaleThisWeek)-totalExpenseThisWeek)-totalRevenueThisWeek)}</p>
+      <p className="text-gray-600  mt-1"></p>
     </div>
   </div>
 </div>
+   
 <div className='flex flex-col md:flex-row gap-6'>
   {user.role === 'admin' ? (
     <div className="bg-white shadow-md rounded-sm p-10 w-full md:w-1/2 flex flex-col">
@@ -515,7 +657,7 @@ const fetchExpense = async () => {
     <div className="flex  md:flex-row  items-center text gap-4">
       <div>{cartIcon} </div>
       <div className=" ml-5 ">
-        <p className="text-2xl font-bold text-start text-gray-800">${totalSalesThisWeek}</p>
+        <p className="text-2xl font-bold text-start text-gray-800">${(totalSalesThisWeek+ totalExchangeSaleThisWeek)}</p>
         <Link to={"/manage-items/sales-report/this-week"}>
         <p className="text-[#a46cc6] text-sm  mt-1">View Details</p>
         </Link>
@@ -530,7 +672,7 @@ const fetchExpense = async () => {
   <div className="flex  md:flex-row  items-center text gap-4">
     <div>{cartIcon} </div>
     <div className=" ml-5 ">
-      <p className="text-2xl font-bold text-start text-gray-800">${totalSalesThisWeek}</p>
+      <p className="text-2xl font-bold text-start text-gray-800">${(totalSalesThisWeek+ totalExchangeSaleThisWeek)-totalExpenseThisWeek}</p>
       
     </div>
   </div>
@@ -552,21 +694,37 @@ const fetchExpense = async () => {
 </div>
 </div>
 {/**monthly sale */}
+<div className="bg-white shadow-md rounded-sm p-10 w-full flex flex-col">
+  <div className="text-center mb-4">
+    <p className="text-xl text-start font-semibold text-gray-700">Total Balance | <span className='text-sm text-gray-400'>Monthly</span></p>
+  </div>
+  
+  <div className="flex  md:flex-row  items-center text gap-4">
+  <div className='flex flex-row'><FontAwesomeIcon icon={faPiggyBank} size="2x"  /><FontAwesomeIcon icon={faDollarSign} className='font-bold'/> </div>
+    <div className=" ml-5 ">
+      <p className="text-2xl font-bold text-start text-gray-800">${(((totalSalesThisMonth + totalExchangeSaleThisMonth)-totalExpenseThisMonth)- totalRevenueThisMonth)}</p>
+      <p className="text-gray-600  mt-1"></p>
+    </div>
+  </div>
+</div>
+<div className='flex flex-row gap-6'>
 {user.role === "admin" ? (
-  <div className="bg-white shadow-md rounded-sm p-10 w-full flex flex-col">
+ 
+  <div className="bg-white shadow-md rounded-sm p-10 md:w-1/2 w-full flex flex-col">
   <div className="text-center mb-4">
     <p className="text-xl text-start font-semibold text-gray-700">Monthly Sales</p>
   </div>
   <div className="flex  md:flex-row  items-center text gap-4">
   <div>{cartIcon}</div>
     <div className=" ml-5 ">
-      <p className="text-2xl font-bold text-start text-gray-800">${totalSalesThisMonth}</p>
+      <p className="text-2xl font-bold text-start text-gray-800">${(totalSalesThisMonth + totalExchangeSaleThisMonth)- totalExpenseThisMonth}</p>
       <Link to={"/manage-items/sales-report/this-month"}>
       <p className="text-[#a46cc6] text-sm  mt-1">View Details</p>
       </Link>
     </div>
   </div>
 </div>
+
 
 ):(
   <div className="bg-white shadow-md rounded-sm p-10 w-full flex flex-col">
@@ -576,14 +734,14 @@ const fetchExpense = async () => {
   <div className="flex  md:flex-row  items-center text gap-4">
   <div>{cartIcon}</div>
     <div className=" ml-5 ">
-      <p className="text-2xl font-bold text-start text-gray-800">${totalSalesThisMonth}</p>
+      <p className="text-2xl font-bold text-start text-gray-800">${(totalSalesThisMonth + totalExchangeSaleThisMonth)-totalExpenseThisMonth}</p>
       
     </div>
   </div>
 </div>
 )}
     
-<div className="bg-white shadow-md rounded-sm p-10 w-full flex flex-col">
+<div className="bg-white shadow-md rounded-sm p-10 md:w-1/2 w-full flex flex-col">
   <div className="text-center mb-4">
     <p className="text-xl text-start font-semibold text-gray-700">Profits | <span className='text-sm text-gray-400'>Monthly</span></p>
   </div>
@@ -591,10 +749,11 @@ const fetchExpense = async () => {
   <div className="flex  md:flex-row  items-center text gap-4">
   <FontAwesomeIcon icon={faDollarSign} size="2x"  />
     <div className=" ml-5 ">
-      <p className="text-2xl font-bold text-start text-gray-800">${totalProfitThisMonth}</p>
+      <p className="text-2xl font-bold text-start text-gray-800">${(totalProfitThisMonth + totalExchangeProfitThisWeek)}</p>
       <p className="text-gray-600  mt-1"></p>
     </div>
   </div>
+</div>
 </div>
 {/** Hosted/collected */}
 <div className='flex flex-col md:flex-row gap-6'>
@@ -607,7 +766,7 @@ const fetchExpense = async () => {
          <div className="flex  md:flex-row  items-center text gap-4">
          <FontAwesomeIcon icon={faCartShopping} size="2x"   />
            <div className=" ml-5 ">
-             <p className="text-2xl font-bold text-start text-gray-800">${totalSellingPrice}</p>
+             <p className="text-2xl font-bold text-start text-gray-800">${(totalSellingPrice + parseFloat(totalExchangeSale))-totalExpense}</p>
              <Link to={"/sell/view-sell"}>
              <p className="text-[#a46cc6] text-sm  mt-1">View Details</p>
              </Link>
@@ -623,7 +782,7 @@ const fetchExpense = async () => {
         <div className="flex  md:flex-row  items-center text gap-4">
         <FontAwesomeIcon icon={faCartShopping} size="2x"   />
           <div className=" ml-5 ">
-            <p className="text-2xl font-bold text-start text-gray-800">${totalSellingPrice}</p>
+            <p className="text-2xl font-bold text-start text-gray-800">${(totalSellingPrice + totalExchangeSale)-totalExpense}</p>
            
           </div>
         </div>
@@ -637,7 +796,7 @@ const fetchExpense = async () => {
   <div className="flex  md:flex-row  items-center text gap-4">
   <FontAwesomeIcon icon={faDollarSign} size="2x"  />
     <div className=" ml-5 ">
-      <p className="text-2xl font-bold text-start text-gray-800">${totalProfit}</p>
+      <p className="text-2xl font-bold text-start text-gray-800">${(totalProfit + totalExchangeProfit)}</p>
       
     </div>
   </div>
@@ -659,6 +818,19 @@ const fetchExpense = async () => {
  
 
     </div>
+    <div className="bg-white shadow-md rounded-sm p-10 w-full flex flex-col">
+  <div className="text-center mb-4">
+    <p className="text-xl text-start font-semibold text-gray-700">Total Balance  <span className='text-sm text-gray-400'></span></p>
+  </div>
+  
+  <div className="flex  md:flex-row  items-center text gap-4">
+  <div className='flex flex-row'><FontAwesomeIcon icon={faPiggyBank} size="2x"  /><FontAwesomeIcon icon={faDollarSign} className='font-bold'/> </div>
+    <div className=" ml-5 ">
+      <p className="text-2xl font-bold text-start text-gray-800">${(((totalSellingPrice + totalExchangeSale)-totalExpense)- totalRevenue)}</p>
+      <p className="text-gray-600  mt-1"></p>
+    </div>
+  </div>
+</div>
 
 <div className="bg-white shadow-md rounded-sm p-10 w-full">
       <div className="flex items-center justify-between mb-4">
@@ -764,11 +936,11 @@ const fetchExpense = async () => {
     </div>
     <div className="bg-gray-100 p-4 rounded-lg shadow-sm flex-1">
       <p className="text-sm font-semibold text-gray-700">Total Sales</p>
-      <p className="text-2xl font-bold text-gray-500">${totalSalesThisMonth}</p>
+      <p className="text-2xl font-bold text-gray-500">${totalSalesThisMonth - totalExpenseThisMonth}</p>
     </div>
     <div className="bg-gray-100 p-4 rounded-lg shadow-sm flex-1">
       <p className="text-sm font-semibold text-gray-700">Total Profit</p>
-      <p className="text-2xl font-bold text-gray-500">${totalProfitThisMonth}</p>
+      <p className="text-2xl font-bold text-gray-500">${(totalProfitThisMonth+ totalExchangeProfitThisMonth)}</p>
     </div>
   </div>
  
